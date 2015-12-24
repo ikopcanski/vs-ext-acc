@@ -1,0 +1,69 @@
+﻿using System;
+using System.Diagnostics.Contracts;
+
+namespace CodeContractCommands.Test
+{
+    [ContractClassFor(typeof(IInterfaceInput))]
+    internal abstract class IInterfaceInput_Contract : IInterfaceInput
+    {
+        public string Property1
+        {
+            get
+            {
+                //Code contract checks here...
+                return default(string);
+            }
+        }
+        public int Property2
+        {
+            get
+            {
+                //Code contract checks here...
+                return default(int);
+            }
+
+            set
+            {
+                //Code contract checks here...
+            }
+        }
+        public object Property3
+        {
+            set
+            {
+                //Code contract checks here...
+            }
+        }
+        public void TestVoid(bool? p1, int p2, decimal p3, string p4, object p5)
+        {
+            //Code contract checks here...
+        }
+        public void TestOverload()
+        {
+            //Code contract checks here...
+        }
+        public int TestOverload(string p1)
+        {
+            //Code contract checks here...
+            return default(int);
+        }
+        public int TestReturnInt()
+        {
+            //Code contract checks here...
+            return default(int);
+        }
+        public string TestReturnString()
+        {
+            //Code contract checks here...
+            return default(string);
+        }
+        public object TestReturnObject()
+        {
+            //Code contract checks here...
+            return default(object);
+        }
+
+        public event EventHandler TestEvent;
+        public event EventHandler<int> TestEventWithArgs;
+    }
+}

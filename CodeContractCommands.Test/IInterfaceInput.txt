@@ -1,0 +1,29 @@
+﻿using System;
+
+namespace CodeContractCommands.Test
+{
+    public interface IInterfaceInput
+    {
+        string Property1 { get; }
+
+        int Property2 { get; set; }
+
+        object Property3 { set; }
+
+        void TestVoid(bool? p1, int p2, decimal p3, string p4, object p5);
+
+        void TestOverload();
+
+        int TestOverload(string p1);
+
+        int TestReturnInt();
+
+        string TestReturnString();
+
+        object TestReturnObject();
+
+        event EventHandler TestEvent;
+
+        event EventHandler<int> TestEventWithArgs;
+    }
+}

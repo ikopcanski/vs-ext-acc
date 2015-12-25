@@ -11,6 +11,9 @@ namespace CodeContractsContrib.Managers
     {
         public const string CCGeneratedFileSuffix = ".contract";
         public const string CCClassNameSuffix = "_Contract";
+        public const string Attribute_Namespace = "System.Diagnostics.Contracts";
+        public const string AttributeName_ContractClassFor = "ContractClassFor";
+        public const string AttributeName_ContractClass = "ContractClass";
 
         /// <summary>
         /// Performing actions in order to get code contract class out of interface:
@@ -31,13 +34,13 @@ namespace CodeContractsContrib.Managers
 
             //Inserting 'using Microsoft.CodeAnalysis.Diagnostics' namespace needed for code contract attributes.
 
-            classNode = new UsingStatementsExtender("System.Diagnostics.Contracts").Visit(classNode);
+            classNode = new UsingStatementsExtender(Attribute_Namespace).Visit(classNode);
 
             //Attaching contract attribute - [ContractClassFor(typeof(<interface_name>))].
 
             var interfaceName = interfaceNode.DescendantNodes().OfType<InterfaceDeclarationSyntax>().First().Identifier.Text.Trim();
 
-            classNode = new AttributeInterfaceDeclarationExtender("ContractClassFor", interfaceName, true).Visit(classNode);
+            classNode = new AttributeInterfaceDeclarationExtender(AttributeName_ContractClassFor, interfaceName, true).Visit(classNode);
 
             //implementing interface buy turning interface declarations into full default property and method definitions. 
 
@@ -50,6 +53,11 @@ namespace CodeContractsContrib.Managers
             //replacing 'interface' with 'class'
 
             return classNode.ToFullString().Replace("internal abstract interface", "internal abstract class");
+        }
+
+        public static string GetGeneratedClassName(string interfaceName)
+        {
+            return interfaceName + InterfaceCCTransformer.CCClassNameSuffix;
         }
     }
 

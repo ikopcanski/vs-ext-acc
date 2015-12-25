@@ -144,15 +144,15 @@ namespace CodeContractsContrib
                 var generatedFilePath = GetGeneratedFilePath(filePath);
                 File.WriteAllText(generatedFilePath, codeContractClass);
 
-                //Adapting interface by coupling it with generated code contract class (adding namespace and attribute).
-
-                var adaptedInterface = new InterfaceCCAdapter().GetAddaptedInterfaceForCC(rootNode);
-                File.WriteAllText(filePath, adaptedInterface);
-
                 //Adding generated file to project and nesting it under the interface file.
 
                 item.ProjectItems.AddFromFile(generatedFilePath);
                 item.Save();
+
+                //Adapting interface by coupling it with generated code contract class (adding namespace and attribute).
+
+                var adaptedInterface = new InterfaceCCAdapter().GetAddaptedInterfaceForCC(rootNode);
+                File.WriteAllText(filePath, adaptedInterface);
             }
             catch (Exception ex)
             {

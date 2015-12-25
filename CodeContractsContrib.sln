@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeContractsContrib", "CodeContractContrib\CodeContractsContrib.csproj", "{97018E00-FE29-43C7-A880-CA1274F359B6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeContractsContrib", "CodeContractsContrib\CodeContractsContrib.csproj", "{97018E00-FE29-43C7-A880-CA1274F359B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeContractsContrib.Test", "CodeContractContrib.Test\CodeContractsContrib.Test.csproj", "{B4A3B48E-CA73-47BE-BC49-D6C8CE2AC2B5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeContractsContrib.Test", "CodeContractsContrib.Test\CodeContractsContrib.Test.csproj", "{B4A3B48E-CA73-47BE-BC49-D6C8CE2AC2B5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

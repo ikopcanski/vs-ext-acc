@@ -129,10 +129,11 @@ namespace CodeContracts.Contrib
                 var syntaxTree = CSharpSyntaxTree.ParseText(sourceCode);
                 var rootNode = syntaxTree.GetRoot();
                 var interfaces = rootNode.DescendantNodes().OfType<InterfaceDeclarationSyntax>().ToArray();
+                var classes = rootNode.DescendantNodes().OfType<ClassDeclarationSyntax>().ToArray();
 
                 //This command can work on only one interface declaration at the time.
 
-                if (interfaces.Count() != 1)
+                if (interfaces.Count() != 1 || classes.Count() > 0)
                 {
                     ShowMessage("Command Error", "Please select single file containing only one interface definition.");
                     return;

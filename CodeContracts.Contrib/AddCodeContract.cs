@@ -4,7 +4,7 @@
 // </copyright>
 //------------------------------------------------------------------------------
 
-using CodeContractsContrib.Managers;
+using CodeContracts.Contrib.Managers;
 using EnvDTE;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -17,7 +17,7 @@ using System.ComponentModel.Design;
 using System.IO;
 using System.Linq;
 
-namespace CodeContractsContrib
+namespace CodeContracts.Contrib
 {
     /// <summary>
     /// Command handler
@@ -144,15 +144,14 @@ namespace CodeContractsContrib
                 var generatedFilePath = GetGeneratedFilePath(filePath);
                 File.WriteAllText(generatedFilePath, codeContractClass);
 
-                //Adding generated file to project and nesting it under the interface file.
-
-                item.ProjectItems.AddFromFile(generatedFilePath);
-                item.Save();
-
                 //Adapting interface by coupling it with generated code contract class (adding namespace and attribute).
 
                 var adaptedInterface = new InterfaceCCAdapter().GetAddaptedInterfaceForCC(rootNode);
                 File.WriteAllText(filePath, adaptedInterface);
+
+                //Adding generated file to project and nesting it under the interface file.
+
+                item.ProjectItems.AddFromFile(generatedFilePath);
             }
             catch (Exception ex)
             {
@@ -195,5 +194,18 @@ namespace CodeContractsContrib
                 OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
         }
         
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 }

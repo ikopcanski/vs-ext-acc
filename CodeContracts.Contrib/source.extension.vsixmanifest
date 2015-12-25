@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="CodeContract-Contrib.Ivan Kopcanski.b666fe20-db04-4e49-8e18-d4c31ecfc8b5" Version="1.0" Language="en-US" Publisher="Ivan Kopcanski" />
-    <DisplayName>CodeContracts-Contrib</DisplayName>
+    <Identity Id="CodeContract.Contrib.Ivan Kopcanski.b666fe20-db04-4e49-8e18-d4c31ecfc8b5" Version="1.0" Language="en-US" Publisher="Ivan Kopcanski" />
+    <DisplayName>CodeContracts.Contrib</DisplayName>
     <Description xml:space="preserve">Visual Studio extension for validation rules in C# interfaces: generates container for input/output validation code. It's an abstract class hidden under your interface containing Code Contracts code (from Microsoft RiSE project). Removes validation code clutter in the begging or end of methods and properties, for sake of having functional stability and clean code. After installing, you should see new commands in Solution Explorer context menu: like "Add Code Contract" etc. </Description>
     <MoreInfo>https://www.kopalite.com/vs-ext-ccc</MoreInfo>
     <License>License.txt</License>

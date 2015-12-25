@@ -1,11 +1,11 @@
-﻿using CodeContractsContrib.Rewriters;
+﻿using CodeContracts.Contrib.Rewriters;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Formatting;
 using Microsoft.CodeAnalysis.MSBuild;
 using System.Linq;
 
-namespace CodeContractsContrib.Managers
+namespace CodeContracts.Contrib.Managers
 {
     public class InterfaceCCTransformer
     {

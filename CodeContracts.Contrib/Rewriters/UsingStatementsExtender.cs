@@ -3,7 +3,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Linq;
 
-namespace CodeContractsContrib.Rewriters
+namespace CodeContracts.Contrib.Rewriters
 {
     internal class UsingStatementsExtender : CSharpSyntaxRewriter
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
 
-namespace CodeContractsContrib.Test
+namespace CodeContracts.Contrib.Test
 {
     [ContractClass(typeof (IInterfaceInput_Contract))]
     public interface IInterfaceInput

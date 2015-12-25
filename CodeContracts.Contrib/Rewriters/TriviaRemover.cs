@@ -1,7 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 
-namespace CodeContractsContrib.Rewriters
+namespace CodeContracts.Contrib.Rewriters
 {
     public class DocumentationTriviaRemover : CSharpSyntaxRewriter
     {

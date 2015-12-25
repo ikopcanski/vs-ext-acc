@@ -127,9 +127,9 @@
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CodeContractsContrib\CodeContractsContrib.csproj">
+    <ProjectReference Include="..\CodeContracts.Contrib\CodeContracts.Contrib.csproj">
       <Project>{97018e00-fe29-43c7-a880-ca1274f359b6}</Project>
-      <Name>CodeContractsContrib</Name>
+      <Name>CodeContracts.Contrib</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

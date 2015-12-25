@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CodeContractCommands.Test
+namespace CodeContractsContrib.Test
 {
     public interface IInterfaceInput
     {

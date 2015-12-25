@@ -1,16 +1,16 @@
-﻿using CodeContractCommands.Managers;
+﻿using CodeContractsContrib.Managers;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using System.Text;
 
-namespace CodeContractCommands.Test
+namespace CodeContractsContrib.Test
 {
     [TestClass]
-    public class InterfaceCCAdapter_Test
+    public class InterfaceToCCClassTransformer_Test
     {
         [TestMethod]
-        public void GetAddaptedInterfaceForCC_Test()
+        public void GetCodeContractClass_Test()
         {
             //Arrange
 
@@ -24,13 +24,14 @@ namespace CodeContractCommands.Test
 
             //Act
 
-            var adapter = new InterfaceCCAdapter();
-            var actual = adapter.GetAddaptedInterfaceForCC(rootNode);
+            var creator = new InterfaceCCTransformer();
+            var actual = creator.GetCodeContractClass(rootNode);
 
             //Assert
 
-            var expected = File.ReadAllText("IInterfaceInput_Adapted.txt");
+            var expected = File.ReadAllText("IInterfaceInput.Contract.txt");
             Assert.AreEqual(expected, actual);
+
         }
     }
 }

@@ -4,7 +4,7 @@
 // </copyright>
 //------------------------------------------------------------------------------
 
-using CodeContractCommands.Managers;
+using CodeContractsContrib.Managers;
 using EnvDTE;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -17,7 +17,7 @@ using System.ComponentModel.Design;
 using System.IO;
 using System.Linq;
 
-namespace CodeContractCommands
+namespace CodeContractsContrib
 {
     /// <summary>
     /// Command handler

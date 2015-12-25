@@ -1,9 +1,9 @@
-﻿using CodeContractCommands.Rewriters;
+﻿using CodeContractsContrib.Rewriters;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Linq;
 
-namespace CodeContractCommands.Managers
+namespace CodeContractsContrib.Managers
 {
     public class InterfaceCCAdapter
     {

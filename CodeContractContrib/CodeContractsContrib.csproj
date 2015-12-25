@@ -23,8 +23,8 @@
     <ProjectGuid>{97018E00-FE29-43C7-A880-CA1274F359B6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CodeContractCommands</RootNamespace>
-    <AssemblyName>CodeContractCommands</AssemblyName>
+    <RootNamespace>CodeContractsContrib</RootNamespace>
+    <AssemblyName>CodeContractsContrib</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <GeneratePkgDefFile>true</GeneratePkgDefFile>
     <IncludeAssemblyInVSIXContainer>true</IncludeAssemblyInVSIXContainer>
@@ -75,6 +75,10 @@
       <SubType>Designer</SubType>
     </VSCTCompile>
     <Content Include="index.html" />
+    <Content Include="License.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <Content Include="Resources\AddCodeContract.png" />
     <Content Include="Resources\AddCodeContractPackage.ico" />
     <Content Include="stylesheet.css" />

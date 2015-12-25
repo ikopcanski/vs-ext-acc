@@ -22,6 +22,14 @@ namespace CodeContractsContrib.Test
             set;
         }
 
+        /// <summary>
+        /// fasdfsafsdf
+        /// </summary>
+        /// <param name = "p1"></param>
+        /// <param name = "p2"></param>
+        /// <param name = "p3"></param>
+        /// <param name = "p4"></param>
+        /// <param name = "p5"></param>
         void TestVoid(bool ? p1, int p2, decimal p3, string p4, object p5);
         void TestOverload();
         int TestOverload(string p1);

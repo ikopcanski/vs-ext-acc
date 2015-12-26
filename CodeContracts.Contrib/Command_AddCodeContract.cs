@@ -118,7 +118,7 @@ namespace CodeContracts.Contrib
                     return;
                 }
 
-                //Determining interface name and forming the generated class name and the new file that will be created.
+                //Determining the interface name - forming the code contract class name and the name of the file that will be created.
 
                 var interfaceName = rootNode.DescendantNodes().OfType<InterfaceDeclarationSyntax>().First().Identifier.Text.Trim();
                 var contractClassName = IdentifiersHelper.GetCodeContractClassName(interfaceName);

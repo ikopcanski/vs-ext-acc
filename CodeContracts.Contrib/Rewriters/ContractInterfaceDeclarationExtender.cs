@@ -6,11 +6,11 @@ using System.Linq;
 
 namespace CodeContracts.Contrib.Rewriters
 {
-    internal class CCInterfaceDeclarationExtender : CSharpSyntaxRewriter
+    internal class ContractInterfaceDeclarationExtender : CSharpSyntaxRewriter
     {
         private string _newInterfaceName;
 
-        public CCInterfaceDeclarationExtender(string newInterfaceName)
+        public ContractInterfaceDeclarationExtender(string newInterfaceName)
         {
             _newInterfaceName = newInterfaceName;
         }

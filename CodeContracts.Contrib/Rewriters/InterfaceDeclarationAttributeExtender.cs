@@ -5,14 +5,14 @@ using System.Linq;
 
 namespace CodeContracts.Contrib.Rewriters
 {
-    internal class AttributeInterfaceDeclarationExtender : CSharpSyntaxRewriter
+    internal class InterfaceDeclarationAttributeExtender : CSharpSyntaxRewriter
     {
         private string _attributeName;
         private string _argumentTypeName;
         private bool _deleteExistingAttributes;
 
 
-        public AttributeInterfaceDeclarationExtender(string attributeName, string argumentTypeName, bool deleteExistingAttributes)
+        public InterfaceDeclarationAttributeExtender(string attributeName, string argumentTypeName, bool deleteExistingAttributes)
         {
             _attributeName = attributeName;
             _argumentTypeName = argumentTypeName;

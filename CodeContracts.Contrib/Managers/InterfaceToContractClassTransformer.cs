@@ -21,7 +21,7 @@ namespace CodeContracts.Contrib.Managers
         {
             //preparing class-to-interface transformation by adding '_Contract' suffix to interface name and adding interface implementation (: <interface-name>)
 
-            var classNode = new CCInterfaceDeclarationExtender(contractClassName).Visit(interfaceNode);
+            var classNode = new ContractInterfaceDeclarationExtender(contractClassName).Visit(interfaceNode);
 
             //Removing all trivia: comments etc.
 
@@ -29,15 +29,15 @@ namespace CodeContracts.Contrib.Managers
 
             //Inserting 'using Microsoft.CodeAnalysis.Diagnostics' namespace needed for code contract attributes.
 
-            classNode = new UsingStatementsExtender(IdentifiersHelper.Attribute_Namespace).Visit(classNode);
+            classNode = new UsingStatementsExtender(IdentifiersHelper.Namespace_System_Diagnostics_Contracts).Visit(classNode);
 
             //Attaching contract attribute - [ContractClassFor(typeof(<interface_name>))].
 
-            classNode = new AttributeInterfaceDeclarationExtender(IdentifiersHelper.AttributeName_ContractClassFor, interfaceName, true).Visit(classNode);
+            classNode = new InterfaceDeclarationAttributeExtender(IdentifiersHelper.AttributeName_ContractClassFor, interfaceName, true).Visit(classNode);
 
             //implementing interface buy turning interface declarations into full default property and method definitions. 
 
-            classNode = new CCInterfaceImplementor().Visit(classNode);
+            classNode = new ContractInterfaceImplementor().Visit(classNode);
 
             //Prettifying the code (indents, spaces etc)
 

@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace CodeContracts.Contrib.Rewriters
 {
-    internal class CCInterfaceImplementor : CSharpSyntaxRewriter
+    internal class ContractInterfaceImplementor : CSharpSyntaxRewriter
     {
         public override SyntaxNode VisitPropertyDeclaration(PropertyDeclarationSyntax node)
         {

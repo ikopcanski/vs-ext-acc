@@ -8,9 +8,12 @@
         private const string ContractProxyClassFileSuffix = ".proxy";
         private const string ContractProxyClassNameSuffix = "_Proxy";
 
-        public const string Attribute_Namespace = "System.Diagnostics.Contracts";
+        public const string Namespace_System_Diagnostics_Contracts = "System.Diagnostics.Contracts";
+        public const string Namespace_CodeContractsContrib = "CodeContracts.Contrib";
+
         public const string AttributeName_ContractClassFor = "ContractClassFor";
         public const string AttributeName_ContractClass = "ContractClass";
+        public const string AttributeName_ContractProxy = "ContractProxy";
 
         public static string GetCodeContractClassFile(string interfaceName)
         {

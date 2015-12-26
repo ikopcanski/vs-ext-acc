@@ -5,6 +5,7 @@
 //------------------------------------------------------------------------------
 
 using CodeContracts.Contrib.Helpers;
+using CodeContracts.Contrib.Managers;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.VisualStudio.Shell;
@@ -108,7 +109,7 @@ namespace CodeContracts.Contrib
                 var classes = rootNode.DescendantNodes().OfType<ClassDeclarationSyntax>().ToArray();
                 var interfaces = rootNode.DescendantNodes().OfType<InterfaceDeclarationSyntax>().ToArray();
 
-                //This command can work on only one class declaration at the time.
+                //This command can work on only one contract class declaration at the time.
 
                 if (classes.Count() != 1 || interfaces.Count() > 0)
                 {
@@ -116,25 +117,31 @@ namespace CodeContracts.Contrib
                     return;
                 }
 
-                //Determining interface name and forming the generated class name and the new file that will be created.
+                //Checking if selected file is class declaration with "[ContractClassFor(...)] attribute.
 
-                var contractClassName = rootNode.DescendantNodes().OfType<ClassDeclarationSyntax>().First().Identifier.Text.Trim();
-                var proxyClassName = IdentifiersHelper.GetCodeContractClassName(contractClassName);
-                var proxyClassFile = GetCodeContractClassFilePath(filePath);
+                var attributeNode = classes.First().ChildrenOfType<AttributeSyntax>().FirstOrDefault(a => a.ToFullString().Contains(IdentifiersHelper.AttributeName_ContractClassFor));
+                if (attributeNode == null)
+                {
+                    VSModelHelper.ShowMessage(ServiceProvider, "Command Error", "Please select single file containing generated code contract class (result of 'Create Code Contract' command).");
+                    return;
+                }
 
-                //Taking the interface syntax node and creating abstract class as code contract for it.
+                //Determining code contract class and interface name - forming the contract proxy class name and the name of the file that will be created.
 
-                //var contactProxyClass = new InterfaceCCTransformer().GetCodeContractClass(rootNode, proxyClassName);
-                //File.WriteAllText(contractClassFile, codeContractClass);
+                var interfaceName = attributeNode.ChildrenOfType<TypeOfExpressionSyntax>().First().Type.ToFullString();
+                var contractClassNode = rootNode.DescendantNodes().OfType<ClassDeclarationSyntax>().First();
+                var contractClassName = contractClassNode.Identifier.Text.Trim();
+                var proxyClassName = IdentifiersHelper.GetContractProxyClassName(contractClassName);
+                var proxyClassFile = GetContractProxyClassFilePath(filePath);
 
-                //Adapting interface by coupling it with generated code contract class (adding namespace and attribute).
+                //Taking the code contract class syntax node and creating contract proxy class (replacing Contract.Requires() and Contract.Ensure() statements with 'if' statements).
 
-                //var adaptedInterface = new InterfaceCCAdapter().GetAddaptedInterfaceForCC(rootNode, contractClassName);
-                //File.WriteAllText(filePath, adaptedInterface);
+                var contactProxyClass = new ContractClassToProxyTransformer().GetContractProxyClass(rootNode, interfaceName, proxyClassName);
+                File.WriteAllText(proxyClassFile, contactProxyClass);
+                
+                //Adding generated file to project and nesting it under the code contract file.
 
-                //Adding generated file to project and nesting it under the interface file.
-
-                //item.ProjectItems.AddFromFile(contractClassFile);
+                item.ProjectItems.AddFromFile(proxyClassFile);
             }
             catch (Exception ex)
             {
@@ -143,7 +150,7 @@ namespace CodeContracts.Contrib
             }
         }
 
-        private string GetCodeContractClassFilePath(string filePath)
+        private string GetContractProxyClassFilePath(string filePath)
         {
             var directory = Path.GetDirectoryName(filePath);
             string fileName = Path.GetFileNameWithoutExtension(filePath);

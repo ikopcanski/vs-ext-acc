@@ -17,11 +17,11 @@ namespace CodeContracts.Contrib.Managers
         {
             //Inserting 'using Microsoft.CodeAnalysis.Diagnostics' namespace needed for code contract attributes.
 
-            var classNode = new UsingStatementsExtender(IdentifiersHelper.Attribute_Namespace).Visit(interfaceNode);
+            var classNode = new UsingStatementsExtender(IdentifiersHelper.Namespace_System_Diagnostics_Contracts).Visit(interfaceNode);
 
             //Attaching code contract attribute - [ContractClass(typeof(<interface_name>_Contract))].
 
-            classNode = new AttributeInterfaceDeclarationExtender(IdentifiersHelper.AttributeName_ContractClass, contractClassName, true).Visit(classNode);
+            classNode = new InterfaceDeclarationAttributeExtender(IdentifiersHelper.AttributeName_ContractClass, contractClassName, true).Visit(classNode);
 
             //Formatting (empty spaces, indents etc)
 

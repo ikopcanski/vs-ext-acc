@@ -25,7 +25,7 @@ namespace CodeContracts.Contrib.Test
             //Act
 
             var creator = new InterfaceCCTransformer();
-            var actual = creator.GetCodeContractClass(rootNode);
+            var actual = creator.GetCodeContractClass(rootNode, "IInterfaceInput", "IInterfaceInput_Contract");
 
             //Assert
 

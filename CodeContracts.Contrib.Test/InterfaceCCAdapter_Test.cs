@@ -25,7 +25,7 @@ namespace CodeContracts.Contrib.Test
             //Act
 
             var adapter = new InterfaceCCAdapter();
-            var actual = adapter.GetAddaptedInterfaceForCC(rootNode);
+            var actual = adapter.GetAddaptedInterfaceForCC(rootNode, "IInterfaceInput_Contract");
 
             //Assert
 

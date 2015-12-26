@@ -12,19 +12,17 @@ namespace CodeContracts.Contrib.Managers
         /// Adding using statements and attributes necessary for coupling with code contract class.
         /// </summary>
         /// <param name="interfaceNode">Interface definition to be addapted.</param>
+        /// <param name="contractClassName">Generated contract class name.</param>
         // <returns>Adapted interface definition - string representation</returns>
-        public string GetAddaptedInterfaceForCC(SyntaxNode interfaceNode)
+        public string GetAddaptedInterfaceForCC(SyntaxNode interfaceNode, string contractClassName)
         {
             //Inserting 'using Microsoft.CodeAnalysis.Diagnostics' namespace needed for code contract attributes.
 
-            var classNode = new UsingStatementsExtender(InterfaceCCTransformer.Attribute_Namespace).Visit(interfaceNode);
+            var classNode = new UsingStatementsExtender(IdentifiersHelper.Attribute_Namespace).Visit(interfaceNode);
 
-            //Attaching code contract attribute - [ContractClass(typeof(<interface_name>_CodeContract))].
+            //Attaching code contract attribute - [ContractClass(typeof(<interface_name>_Contract))].
 
-            var interfaceName = interfaceNode.DescendantNodes().OfType<InterfaceDeclarationSyntax>().First().Identifier.Text.Trim();
-
-            classNode = new AttributeInterfaceDeclarationExtender(InterfaceCCTransformer.AttributeName_ContractClass, 
-                                                                  InterfaceCCTransformer.GetGeneratedClassName(interfaceName), true).Visit(classNode);
+            classNode = new AttributeInterfaceDeclarationExtender(IdentifiersHelper.AttributeName_ContractClass, contractClassName, true).Visit(classNode);
 
             //Formatting (empty spaces, indents etc)
 

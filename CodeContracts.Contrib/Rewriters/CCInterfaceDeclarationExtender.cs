@@ -1,4 +1,5 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using CodeContracts.Contrib.Managers;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Linq;
@@ -7,18 +8,18 @@ namespace CodeContracts.Contrib.Rewriters
 {
     internal class CCInterfaceDeclarationExtender : CSharpSyntaxRewriter
     {
-        private string _interfaceNameSuffix;
+        private string _newInterfaceName;
 
-        public CCInterfaceDeclarationExtender(string interfaceNameSuffix)
+        public CCInterfaceDeclarationExtender(string newInterfaceName)
         {
-            _interfaceNameSuffix = interfaceNameSuffix;
+            _newInterfaceName = newInterfaceName;
         }
 
         public override SyntaxNode VisitInterfaceDeclaration(InterfaceDeclarationSyntax node)
         {
             //Changing interface declaration to "internal abstract sealed interface <interface-name>_cc : <interface-name>
 
-            var newClassName = SyntaxFactory.Identifier(node.Identifier.Text + _interfaceNameSuffix);
+            var newClassName = SyntaxFactory.Identifier(_newInterfaceName);
 
             //preparing access modifiers (internal abstract sealed)
 

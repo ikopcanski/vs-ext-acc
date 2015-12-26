@@ -9,24 +9,20 @@ namespace CodeContracts.Contrib.Managers
 {
     public class InterfaceCCTransformer
     {
-        public const string CCGeneratedFileSuffix = ".contract";
-        public const string CCClassNameSuffix = "_Contract";
-        public const string Attribute_Namespace = "System.Diagnostics.Contracts";
-        public const string AttributeName_ContractClassFor = "ContractClassFor";
-        public const string AttributeName_ContractClass = "ContractClass";
-
         /// <summary>
         /// Performing actions in order to get code contract class out of interface:
         /// Changing interface declaration to abstract class declaration, adding necessary code contract attributes and using statements,
         /// implementing interface properties and methods with inserting comments in places where code contract checks should be done.
         /// </summary>
         /// <param name="interfaceNode">Interface definition which should be transformed.</param>
+        /// <param name="interfaceName">Name of the interface that should be transformed.</param>
+        /// <param name="contractClassName">Generated contract class name.</param>
         /// <returns>Contract class - string representation</returns>
-        public string GetCodeContractClass(SyntaxNode interfaceNode)
+        public string GetCodeContractClass(SyntaxNode interfaceNode, string interfaceName, string contractClassName)
         {
-            //preparing interface declaration by adding '_cc' suffix to interface name and adding interface implementation (: <interface-name>)
+            //preparing class-to-interface transformation by adding '_Contract' suffix to interface name and adding interface implementation (: <interface-name>)
 
-            var classNode = new CCInterfaceDeclarationExtender(CCClassNameSuffix).Visit(interfaceNode);
+            var classNode = new CCInterfaceDeclarationExtender(contractClassName).Visit(interfaceNode);
 
             //Removing all trivia: comments etc.
 
@@ -34,13 +30,11 @@ namespace CodeContracts.Contrib.Managers
 
             //Inserting 'using Microsoft.CodeAnalysis.Diagnostics' namespace needed for code contract attributes.
 
-            classNode = new UsingStatementsExtender(Attribute_Namespace).Visit(classNode);
+            classNode = new UsingStatementsExtender(IdentifiersHelper.Attribute_Namespace).Visit(classNode);
 
             //Attaching contract attribute - [ContractClassFor(typeof(<interface_name>))].
 
-            var interfaceName = interfaceNode.DescendantNodes().OfType<InterfaceDeclarationSyntax>().First().Identifier.Text.Trim();
-
-            classNode = new AttributeInterfaceDeclarationExtender(AttributeName_ContractClassFor, interfaceName, true).Visit(classNode);
+            classNode = new AttributeInterfaceDeclarationExtender(IdentifiersHelper.AttributeName_ContractClassFor, interfaceName, true).Visit(classNode);
 
             //implementing interface buy turning interface declarations into full default property and method definitions. 
 
@@ -55,10 +49,7 @@ namespace CodeContracts.Contrib.Managers
             return classNode.ToFullString().Replace("internal abstract interface", "internal abstract class");
         }
 
-        public static string GetGeneratedClassName(string interfaceName)
-        {
-            return interfaceName + InterfaceCCTransformer.CCClassNameSuffix;
-        }
+            
     }
 
     

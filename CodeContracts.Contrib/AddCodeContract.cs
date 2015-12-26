@@ -139,20 +139,25 @@ namespace CodeContracts.Contrib
                     return;
                 }
 
+                //Determining interface name and forming the generated class name and the new file that will be created.
+
+                var interfaceName = rootNode.DescendantNodes().OfType<InterfaceDeclarationSyntax>().First().Identifier.Text.Trim();
+                var contractClassName = IdentifiersHelper.GetGeneratedClassName(interfaceName);
+                var contractClassFile = GetGeneratedFilePath(filePath);
+
                 //Taking the interface syntax node and creating abstract class as code contract for it.
 
-                var codeContractClass = new InterfaceCCTransformer().GetCodeContractClass(rootNode);
-                var generatedFilePath = GetGeneratedFilePath(filePath);
-                File.WriteAllText(generatedFilePath, codeContractClass);
+                var codeContractClass = new InterfaceCCTransformer().GetCodeContractClass(rootNode, interfaceName, contractClassName);
+                File.WriteAllText(contractClassFile, codeContractClass);
 
                 //Adapting interface by coupling it with generated code contract class (adding namespace and attribute).
 
-                var adaptedInterface = new InterfaceCCAdapter().GetAddaptedInterfaceForCC(rootNode);
+                var adaptedInterface = new InterfaceCCAdapter().GetAddaptedInterfaceForCC(rootNode, contractClassName);
                 File.WriteAllText(filePath, adaptedInterface);
 
                 //Adding generated file to project and nesting it under the interface file.
 
-                item.ProjectItems.AddFromFile(generatedFilePath);
+                item.ProjectItems.AddFromFile(contractClassFile);
             }
             catch (Exception ex)
             {
@@ -178,9 +183,9 @@ namespace CodeContracts.Contrib
         private string GetGeneratedFilePath(string filePath)
         {
             var directory = Path.GetDirectoryName(filePath);
-            string name = Path.GetFileNameWithoutExtension(filePath);
+            string fileName = Path.GetFileNameWithoutExtension(filePath);
             string extension = Path.GetExtension(filePath);
-            return string.Format(@"{0}\{1}{2}{3}", directory, name, InterfaceCCTransformer.CCGeneratedFileSuffix, extension);
+            return string.Format(@"{0}\{1}{2}", directory, IdentifiersHelper.GetGeneratedClassFile(fileName), extension);
         }
 
         private void ShowMessage(string title, string message)

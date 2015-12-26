@@ -1,19 +1,16 @@
 ﻿//------------------------------------------------------------------------------
-// <copyright file="AddCodeContract.cs" company="Company">
+// <copyright file="AddCodeContract.cs" company="Kopalite">
 //     Copyright (c) Company.  All rights reserved.
 // </copyright>
 //------------------------------------------------------------------------------
 
 using CodeContracts.Contrib.Helpers;
 using CodeContracts.Contrib.Managers;
-using EnvDTE;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.IO;
 using System.Linq;
@@ -25,26 +22,33 @@ namespace CodeContracts.Contrib
     /// </summary>
     internal sealed class AddCodeContract
     {
-        /// <summary>
-        /// Command ID.
-        /// </summary>
-        public const int CommandId = 0x0100;
+        #region [ Props, ctor and init ]
 
-        /// <summary>
-        /// Command menu group (command set GUID).
-        /// </summary>
         public static readonly Guid CommandSet = new Guid("8a37555e-23b6-4c43-b200-702b66b0326d");
 
-        /// <summary>
-        /// VS Package that provides this command, not null.
-        /// </summary>
+        public const int CommandId = 0x0100;
+
         private readonly Package package;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AddCodeContract"/> class.
-        /// Adds our command handlers for menu (commands must exist in the command table file)
-        /// </summary>
-        /// <param name="package">Owner package, not null.</param>
+        private IServiceProvider ServiceProvider
+        {
+            get
+            {
+                return this.package;
+            }
+        }
+
+        public static AddCodeContract Instance
+        {
+            get;
+            private set;
+        }
+
+        public static void Initialize(Package package)
+        {
+            Instance = new AddCodeContract(package);
+        }
+        
         private AddCodeContract(Package package)
         {
             if (package == null)
@@ -64,35 +68,6 @@ namespace CodeContracts.Contrib
         }
 
         /// <summary>
-        /// Gets the instance of the command.
-        /// </summary>
-        public static AddCodeContract Instance
-        {
-            get;
-            private set;
-        }
-
-        /// <summary>
-        /// Gets the service provider from the owner package.
-        /// </summary>
-        private IServiceProvider ServiceProvider
-        {
-            get
-            {
-                return this.package;
-            }
-        }
-
-        /// <summary>
-        /// Initializes the singleton instance of the command.
-        /// </summary>
-        /// <param name="package">Owner package, not null.</param>
-        public static void Initialize(Package package)
-        {
-            Instance = new AddCodeContract(package);
-        }
-
-        /// <summary>
         /// This function is the callback used to execute the command when the menu item is clicked.
         /// See the constructor to see how the menu item is associated with this function using
         /// OleMenuCommandService service and MenuCommand class.
@@ -108,17 +83,20 @@ namespace CodeContracts.Contrib
                 myCommand.Text = "Add Code Contract";
             }
 
-            var items = GetSelectedItems();
-            GenerateContractFile(items);
+            GenerateContractFile();
         }
 
-        private void GenerateContractFile(IEnumerable<ProjectItem> items)
+        #endregion
+
+        private void GenerateContractFile()
         {
             try
             {
+                var items = VSModelHelper.GetSelectedItems(ServiceProvider);
+
                 if (items.Count() != 1)
                 {
-                    ShowMessage("Command Error", "Please select single file containing only one interface definition.");
+                    VSModelHelper.ShowMessage(ServiceProvider, "Command Error", "Please select single file containing only one interface definition.");
                     return;
                 }
 
@@ -136,7 +114,7 @@ namespace CodeContracts.Contrib
 
                 if (interfaces.Count() != 1 || classes.Count() > 0)
                 {
-                    ShowMessage("Command Error", "Please select single file containing only one interface definition.");
+                    VSModelHelper.ShowMessage(ServiceProvider, "Command Error", "Please select single file containing only one interface definition.");
                     return;
                 }
 
@@ -163,21 +141,7 @@ namespace CodeContracts.Contrib
             catch (Exception ex)
             {
                 var message = string.Format("Exception occured while generating code contract class:\r\n{0}", ex.Message);
-                ShowMessage("Command Error", message);
-            }
-        }
-
-        private IEnumerable<ProjectItem> GetSelectedItems()
-        {
-            var appObject = ServiceProvider.GetService(typeof(DTE)) as EnvDTE80.DTE2;
-            var explorer = appObject.ToolWindows.SolutionExplorer;
-            Array selectedItems = (Array)explorer.SelectedItems;
-            if (selectedItems != null)
-            {
-                foreach (UIHierarchyItem selectedItem in selectedItems)
-                {
-                    yield return selectedItem.Object as ProjectItem;
-                }
+                VSModelHelper.ShowMessage(ServiceProvider, "Command Error", message);
             }
         }
 
@@ -188,31 +152,5 @@ namespace CodeContracts.Contrib
             string extension = Path.GetExtension(filePath);
             return string.Format(@"{0}\{1}{2}", directory, IdentifiersHelper.GetGeneratedClassFile(fileName), extension);
         }
-
-        private void ShowMessage(string title, string message)
-        {
-            // Show a message box to prove we were here
-            VsShellUtilities.ShowMessageBox(
-                this.ServiceProvider,
-                message,
-                title,
-                OLEMSGICON.OLEMSGICON_INFO,
-                OLEMSGBUTTON.OLEMSGBUTTON_OK,
-                OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
-        }
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 }

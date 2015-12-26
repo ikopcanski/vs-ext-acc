@@ -24,8 +24,8 @@ namespace CodeContracts.Contrib.Test
 
             //Act
 
-            var adapter = new InterfaceCCAdapter();
-            var actual = adapter.GetAddaptedInterfaceForCC(rootNode, "IInterfaceInput_Contract");
+            var adapter = new InterfaceToContractClassAdapter();
+            var actual = adapter.AdaptInterfaceForContractClass(rootNode, "IInterfaceInput_Contract");
 
             //Assert
 

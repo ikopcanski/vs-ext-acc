@@ -126,12 +126,12 @@ namespace CodeContracts.Contrib
 
                 //Taking the interface syntax node and creating abstract class as code contract for it.
 
-                var codeContractClass = new InterfaceCCTransformer().GetCodeContractClass(rootNode, interfaceName, contractClassName);
+                var codeContractClass = new InterfaceToContractClassTransformer().TransformInterfaceToContractClass(rootNode, interfaceName, contractClassName);
                 File.WriteAllText(contractClassFile, codeContractClass);
 
                 //Adapting interface by coupling it with generated code contract class (adding namespace and attribute).
 
-                var adaptedInterface = new InterfaceCCAdapter().GetAddaptedInterfaceForCC(rootNode, contractClassName);
+                var adaptedInterface = new InterfaceToContractClassAdapter().AdaptInterfaceForContractClass(rootNode, contractClassName);
                 File.WriteAllText(filePath, adaptedInterface);
 
                 //Adding generated file to project and nesting it under the interface file.
@@ -150,7 +150,7 @@ namespace CodeContracts.Contrib
             var directory = Path.GetDirectoryName(filePath);
             string fileName = Path.GetFileNameWithoutExtension(filePath);
             string extension = Path.GetExtension(filePath);
-            return string.Format(@"{0}\{1}{2}", directory, IdentifiersHelper.GetGeneratedCodeContractClassFile(fileName), extension);
+            return string.Format(@"{0}\{1}{2}", directory, IdentifiersHelper.GetCodeContractClassFile(fileName), extension);
         }
     }
 }

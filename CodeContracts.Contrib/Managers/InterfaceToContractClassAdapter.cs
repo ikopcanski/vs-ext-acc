@@ -4,7 +4,7 @@ using Microsoft.CodeAnalysis;
 
 namespace CodeContracts.Contrib.Managers
 {
-    public class InterfaceCCAdapter
+    public class InterfaceToContractClassAdapter
     {
         /// <summary>
         /// Addapts interface definition for joint usage with generated code contract class.
@@ -13,7 +13,7 @@ namespace CodeContracts.Contrib.Managers
         /// <param name="interfaceNode">Interface definition to be addapted.</param>
         /// <param name="contractClassName">Generated contract class name.</param>
         // <returns>Adapted interface definition - string representation</returns>
-        public string GetAddaptedInterfaceForCC(SyntaxNode interfaceNode, string contractClassName)
+        public string AdaptInterfaceForContractClass(SyntaxNode interfaceNode, string contractClassName)
         {
             //Inserting 'using Microsoft.CodeAnalysis.Diagnostics' namespace needed for code contract attributes.
 

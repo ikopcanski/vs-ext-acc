@@ -6,7 +6,7 @@ using Microsoft.CodeAnalysis.MSBuild;
 
 namespace CodeContracts.Contrib.Managers
 {
-    public class InterfaceCCTransformer
+    public class InterfaceToContractClassTransformer
     {
         /// <summary>
         /// Performing actions in order to get code contract class out of interface:
@@ -17,7 +17,7 @@ namespace CodeContracts.Contrib.Managers
         /// <param name="interfaceName">Name of the interface that should be transformed.</param>
         /// <param name="contractClassName">Generated contract class name.</param>
         /// <returns>Contract class - string representation</returns>
-        public string GetCodeContractClass(SyntaxNode interfaceNode, string interfaceName, string contractClassName)
+        public string TransformInterfaceToContractClass(SyntaxNode interfaceNode, string interfaceName, string contractClassName)
         {
             //preparing class-to-interface transformation by adding '_Contract' suffix to interface name and adding interface implementation (: <interface-name>)
 

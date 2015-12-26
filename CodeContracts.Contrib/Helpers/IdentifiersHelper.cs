@@ -2,21 +2,21 @@
 {
     internal class IdentifiersHelper
     {
-        private const string CCGeneratedClassFileSuffix = ".contract";
-        private const string CCGeneratedClassNameSuffix = "_Contract";
+        private const string CodeContractClassFileSuffix = ".contract";
+        private const string CodeContractClassNameSuffix = "_Contract";
 
         public const string Attribute_Namespace = "System.Diagnostics.Contracts";
         public const string AttributeName_ContractClassFor = "ContractClassFor";
         public const string AttributeName_ContractClass = "ContractClass";
 
-        public static string GetGeneratedClassFile(string interfaceName)
+        public static string GetGeneratedCodeContractClassFile(string interfaceName)
         {
-            return interfaceName + CCGeneratedClassFileSuffix;
+            return interfaceName + CodeContractClassFileSuffix;
         }
 
-        public static string GetGeneratedClassName(string interfaceName)
+        public static string GetCodeContractClassName(string interfaceName)
         {
-            return interfaceName + CCGeneratedClassNameSuffix;
+            return interfaceName + CodeContractClassNameSuffix;
         }
     }
 }

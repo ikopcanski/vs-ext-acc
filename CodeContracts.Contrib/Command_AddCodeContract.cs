@@ -83,12 +83,12 @@ namespace CodeContracts.Contrib
                 myCommand.Text = "Add Code Contract";
             }
 
-            GenerateContractFile();
+            GenerateCodeContractClassFile();
         }
 
         #endregion
 
-        private void GenerateContractFile()
+        private void GenerateCodeContractClassFile()
         {
             try
             {
@@ -121,8 +121,8 @@ namespace CodeContracts.Contrib
                 //Determining interface name and forming the generated class name and the new file that will be created.
 
                 var interfaceName = rootNode.DescendantNodes().OfType<InterfaceDeclarationSyntax>().First().Identifier.Text.Trim();
-                var contractClassName = IdentifiersHelper.GetGeneratedClassName(interfaceName);
-                var contractClassFile = GetGeneratedFilePath(filePath);
+                var contractClassName = IdentifiersHelper.GetCodeContractClassName(interfaceName);
+                var contractClassFile = GetCodeContractClassFilePath(filePath);
 
                 //Taking the interface syntax node and creating abstract class as code contract for it.
 
@@ -145,12 +145,12 @@ namespace CodeContracts.Contrib
             }
         }
 
-        private string GetGeneratedFilePath(string filePath)
+        private string GetCodeContractClassFilePath(string filePath)
         {
             var directory = Path.GetDirectoryName(filePath);
             string fileName = Path.GetFileNameWithoutExtension(filePath);
             string extension = Path.GetExtension(filePath);
-            return string.Format(@"{0}\{1}{2}", directory, IdentifiersHelper.GetGeneratedClassFile(fileName), extension);
+            return string.Format(@"{0}\{1}{2}", directory, IdentifiersHelper.GetGeneratedCodeContractClassFile(fileName), extension);
         }
     }
 }

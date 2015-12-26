@@ -22,14 +22,14 @@
         <Parent guid="guidCodeContractsContribPackageCmdSet" id="MyMenuGroup" />
         <Icon guid="guidImages" id="bmpPic1" />
         <Strings>
-          <ButtonText>Add Code Contract</ButtonText>
+          <ButtonText>Create Code Contract</ButtonText>
         </Strings>
       </Button>
       <Button guid="guidCodeContractsContribPackageCmdSet1" id="cmdidAddContractProxy" priority="0x0200" type="Button">
         <Parent guid="guidCodeContractsContribPackageCmdSet" id="MyMenuGroup" />
         <Icon guid="guidImages1" id="bmpPic1" />
         <Strings>
-          <ButtonText>Add Contract Proxy</ButtonText>
+          <ButtonText>Create Contract Proxy</ButtonText>
         </Strings>
       </Button>
     </Buttons>

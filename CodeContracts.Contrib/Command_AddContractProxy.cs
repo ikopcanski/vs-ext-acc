@@ -5,9 +5,13 @@
 //------------------------------------------------------------------------------
 
 using CodeContracts.Contrib.Helpers;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.VisualStudio.Shell;
 using System;
 using System.ComponentModel.Design;
+using System.IO;
+using System.Linq;
 
 namespace CodeContracts.Contrib
 {
@@ -81,5 +85,70 @@ namespace CodeContracts.Contrib
         }
 
         #endregion
+
+        //private void GenerateContractFile()
+        //{
+        //    try
+        //    {
+        //        var items = VSModelHelper.GetSelectedItems(ServiceProvider);
+
+        //        if (items.Count() != 1)
+        //        {
+        //            VSModelHelper.ShowMessage(ServiceProvider, "Command Error", "Please select single file containing only one interface definition.");
+        //            return;
+        //        }
+
+        //        //Loading and analyzing syntax tree of selected file.
+
+        //        var item = items.First();
+        //        var filePath = item.Properties.Item("FullPath").Value.ToString();
+        //        var sourceCode = File.ReadAllText(filePath);
+        //        var syntaxTree = CSharpSyntaxTree.ParseText(sourceCode);
+        //        var rootNode = syntaxTree.GetRoot();
+        //        var interfaces = rootNode.DescendantNodes().OfType<InterfaceDeclarationSyntax>().ToArray();
+        //        var classes = rootNode.DescendantNodes().OfType<ClassDeclarationSyntax>().ToArray();
+
+        //        //This command can work on only one interface declaration at the time.
+
+        //        if (interfaces.Count() != 1 || classes.Count() > 0)
+        //        {
+        //            VSModelHelper.ShowMessage(ServiceProvider, "Command Error", "Please select single file containing only one interface definition.");
+        //            return;
+        //        }
+
+        //        //Determining interface name and forming the generated class name and the new file that will be created.
+
+        //        var interfaceName = rootNode.DescendantNodes().OfType<InterfaceDeclarationSyntax>().First().Identifier.Text.Trim();
+        //        var contractClassName = IdentifiersHelper.GetCodeContractClassName(interfaceName);
+        //        var contractClassFile = GetGeneratedFilePath(filePath);
+
+        //        //Taking the interface syntax node and creating abstract class as code contract for it.
+
+        //        //var codeContractClass = new InterfaceCCTransformer().GetCodeContractClass(rootNode, interfaceName, contractClassName);
+        //        //File.WriteAllText(contractClassFile, codeContractClass);
+
+        //        //Adapting interface by coupling it with generated code contract class (adding namespace and attribute).
+
+        //        //var adaptedInterface = new InterfaceCCAdapter().GetAddaptedInterfaceForCC(rootNode, contractClassName);
+        //        //File.WriteAllText(filePath, adaptedInterface);
+
+        //        //Adding generated file to project and nesting it under the interface file.
+
+        //        //item.ProjectItems.AddFromFile(contractClassFile);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        var message = string.Format("Exception occured while generating code contract class:\r\n{0}", ex.Message);
+        //        VSModelHelper.ShowMessage(ServiceProvider, "Command Error", message);
+        //    }
+        //}
+
+        //private string GetGeneratedFilePath(string filePath)
+        //{
+        //    var directory = Path.GetDirectoryName(filePath);
+        //    string fileName = Path.GetFileNameWithoutExtension(filePath);
+        //    string extension = Path.GetExtension(filePath);
+        //    return string.Format(@"{0}\{1}{2}", directory, IdentifiersHelper.GetGeneratedCodeContractClassFile(fileName), extension);
+        //}
     }
 }

@@ -4,6 +4,7 @@
 // </copyright>
 //------------------------------------------------------------------------------
 
+using CodeContracts.Contrib.Helpers;
 using CodeContracts.Contrib.Managers;
 using EnvDTE;
 using Microsoft.CodeAnalysis;

@@ -1,9 +1,8 @@
-﻿using CodeContracts.Contrib.Rewriters;
+﻿using CodeContracts.Contrib.Helpers;
+using CodeContracts.Contrib.Rewriters;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Formatting;
 using Microsoft.CodeAnalysis.MSBuild;
-using System.Linq;
 
 namespace CodeContracts.Contrib.Managers
 {

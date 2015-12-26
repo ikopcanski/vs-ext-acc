@@ -53,7 +53,7 @@
   <ItemGroup>
     <Compile Include="AddCodeContract.cs" />
     <Compile Include="CodeContractsContribPackage.cs" />
-    <Compile Include="Managers\IdentifiersHelper.cs" />
+    <Compile Include="Helpers\IdentifiersHelper.cs" />
     <Compile Include="Managers\InterfaceCCAdapter.cs" />
     <Compile Include="Managers\InterfaceCCTransformer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

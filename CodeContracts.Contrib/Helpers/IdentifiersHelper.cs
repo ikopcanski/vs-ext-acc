@@ -1,4 +1,4 @@
-﻿namespace CodeContracts.Contrib.Managers
+﻿namespace CodeContracts.Contrib.Helpers
 {
     internal class IdentifiersHelper
     {

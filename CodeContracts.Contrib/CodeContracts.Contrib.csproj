@@ -51,6 +51,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Command_AddContractProxy.cs" />
     <Compile Include="Command_AddCodeContract.cs" />
     <Compile Include="CodeContractsContribPackage.cs" />
     <Compile Include="Helpers\IdentifiersHelper.cs" />
@@ -81,6 +82,7 @@
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
     <Content Include="Resources\AddCodeContract.png" />
+    <Content Include="Resources\AddContractProxy.png" />
     <Content Include="Resources\CodeContractsContribPackage.ico" />
   </ItemGroup>
   <ItemGroup>

@@ -68,6 +68,7 @@ namespace CodeContracts.Contrib
         {
             AddCodeContract.Initialize(this);
             base.Initialize();
+            CodeContracts.Contrib.AddContractProxy.Initialize(this);
         }
 
         #endregion

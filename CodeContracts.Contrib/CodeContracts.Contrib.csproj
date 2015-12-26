@@ -79,7 +79,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="Resources\CodeContractsContrib.png" />
+    <Content Include="Resources\AddCodeContract.png" />
     <Content Include="Resources\CodeContractsContribPackage.ico" />
   </ItemGroup>
   <ItemGroup>

@@ -1,5 +1,5 @@
 ﻿//------------------------------------------------------------------------------
-// <copyright file="AddCodeContractPackage.cs" company="Company">
+// <copyright file="CodeContractsContribPackage.cs" company="Company">
 //     Copyright (c) Company.  All rights reserved.
 // </copyright>
 //------------------------------------------------------------------------------
@@ -38,19 +38,19 @@ namespace CodeContracts.Contrib
     [PackageRegistration(UseManagedResourcesOnly = true)]
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)] // Info on this package for Help/About
     [ProvideMenuResource("Menus.ctmenu", 1)]
-    [Guid(AddCodeContractPackage.PackageGuidString)]
+    [Guid(CodeContractsContribPackage.PackageGuidString)]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
-    public sealed class AddCodeContractPackage : Package
+    public sealed class CodeContractsContribPackage : Package
     {
         /// <summary>
-        /// AddCodeContractPackage GUID string.
+        /// CodeContractsContribPackage GUID string.
         /// </summary>
         public const string PackageGuidString = "19ecedc7-cd34-447c-a495-7cda1b59666c";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AddCodeContract"/> class.
         /// </summary>
-        public AddCodeContractPackage()
+        public CodeContractsContribPackage()
         {
             // Inside this method you can place any initialization code that does not require
             // any Visual Studio service because at this point the package object is created but

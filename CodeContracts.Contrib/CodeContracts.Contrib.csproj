@@ -52,7 +52,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AddCodeContract.cs" />
-    <Compile Include="AddCodeContractPackage.cs" />
+    <Compile Include="CodeContractsContribPackage.cs" />
     <Compile Include="Managers\IdentifiersHelper.cs" />
     <Compile Include="Managers\InterfaceCCAdapter.cs" />
     <Compile Include="Managers\InterfaceCCTransformer.cs" />
@@ -71,7 +71,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <VSCTCompile Include="AddCodeContractPackage.vsct">
+    <VSCTCompile Include="CodeContractsContribPackage.vsct">
       <ResourceName>Menus.ctmenu</ResourceName>
       <SubType>Designer</SubType>
     </VSCTCompile>
@@ -79,8 +79,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <Content Include="Resources\AddCodeContract.png" />
-    <Content Include="Resources\AddCodeContractPackage.ico" />
+    <Content Include="Resources\CodeContractsContrib.png" />
+    <Content Include="Resources\CodeContractsContribPackage.ico" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="EnvDTE, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">

@@ -106,8 +106,8 @@ namespace CodeContracts.Contrib
                 var sourceCode = File.ReadAllText(filePath);
                 var syntaxTree = CSharpSyntaxTree.ParseText(sourceCode);
                 var rootNode = syntaxTree.GetRoot();
-                var classes = rootNode.DescendantNodes().OfType<ClassDeclarationSyntax>().ToArray();
-                var interfaces = rootNode.DescendantNodes().OfType<InterfaceDeclarationSyntax>().ToArray();
+                var classes = rootNode.ChildrenOfType<ClassDeclarationSyntax>().ToArray();
+                var interfaces = rootNode.ChildrenOfType<InterfaceDeclarationSyntax>().ToArray();
 
                 //This command can work on only one contract class declaration at the time.
 
@@ -129,7 +129,7 @@ namespace CodeContracts.Contrib
                 //Determining code contract class and interface name - forming the contract proxy class name and the name of the file that will be created.
 
                 var interfaceName = attributeNode.ChildrenOfType<TypeOfExpressionSyntax>().First().Type.ToFullString();
-                var contractClassNode = rootNode.DescendantNodes().OfType<ClassDeclarationSyntax>().First();
+                var contractClassNode = rootNode.ChildrenOfType<ClassDeclarationSyntax>().First();
                 var contractClassName = contractClassNode.Identifier.Text.Trim();
                 var proxyClassName = IdentifiersHelper.GetContractProxyClassName(contractClassName);
                 var proxyClassFile = GetContractProxyClassFilePath(filePath);

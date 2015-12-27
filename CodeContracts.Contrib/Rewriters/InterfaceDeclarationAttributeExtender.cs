@@ -2,6 +2,7 @@
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Linq;
+using CodeContracts.Contrib.Helpers;
 
 namespace CodeContracts.Contrib.Rewriters
 {
@@ -60,7 +61,7 @@ namespace CodeContracts.Contrib.Rewriters
 
         private bool ContainsAttribute(SyntaxNode node)
         {
-            return node.DescendantNodes().OfType<AttributeSyntax>().Any(a => ((IdentifierNameSyntax)a.Name).Identifier.Text.Trim() == _attributeName);
+            return node.ChildrenOfType<AttributeSyntax>().Any(a => ((IdentifierNameSyntax)a.Name).Identifier.Text.Trim() == _attributeName);
         }
     }
 }

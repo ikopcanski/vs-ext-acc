@@ -22,9 +22,11 @@ namespace CodeContracts.Contrib.Managers
 
             classNode = new ClassDeclarationAttributeExtender(IdentifiersHelper.AttributeName_ContractProxy, interfaceName, true).Visit(classNode);
 
-            //TODO: In method/property declarations: replace Contract.Requires() and Contract.Ensure() statements with if statements that throw Exception(contract message)
+            //Adding internal field of interface type and constructor that initializes the field with injected value.
 
-            //TODO: Add internal field of interface type and constructor that initializes the field with injected value.
+            classNode = new ProxyClassConstructorCreator(interfaceName).Visit(classNode);
+
+            //TODO: In method/property declarations: replace Contract.Requires() and Contract.Ensure() statements with if statements that throw Exception(contract message)
 
             //Prettifying the code (indents, spaces etc)
 

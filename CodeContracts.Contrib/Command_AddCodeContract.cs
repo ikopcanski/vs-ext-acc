@@ -107,8 +107,8 @@ namespace CodeContracts.Contrib
                 var sourceCode = File.ReadAllText(filePath);
                 var syntaxTree = CSharpSyntaxTree.ParseText(sourceCode);
                 var rootNode = syntaxTree.GetRoot();
-                var interfaces = rootNode.DescendantNodes().OfType<InterfaceDeclarationSyntax>().ToArray();
-                var classes = rootNode.DescendantNodes().OfType<ClassDeclarationSyntax>().ToArray();
+                var interfaces = rootNode.ChildrenOfType<InterfaceDeclarationSyntax>().ToArray();
+                var classes = rootNode.ChildrenOfType<ClassDeclarationSyntax>().ToArray();
 
                 //This command can work on only one interface declaration at the time.
 
@@ -120,7 +120,7 @@ namespace CodeContracts.Contrib
 
                 //Determining the interface name - forming the code contract class name and the name of the file that will be created.
 
-                var interfaceName = rootNode.DescendantNodes().OfType<InterfaceDeclarationSyntax>().First().Identifier.Text.Trim();
+                var interfaceName = rootNode.ChildrenOfType<InterfaceDeclarationSyntax>().First().Identifier.Text.Trim();
                 var contractClassName = IdentifiersHelper.GetCodeContractClassName(interfaceName);
                 var contractClassFile = GetCodeContractClassFilePath(filePath);
 

@@ -61,6 +61,7 @@
     <Compile Include="Managers\InterfaceToContractClassAdapter.cs" />
     <Compile Include="Managers\InterfaceToContractClassTransformer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rewriters\ProxyClassConstructorCreator.cs" />
     <Compile Include="Rewriters\ProxyClassDeclarationExtender.cs" />
     <Compile Include="Rewriters\ClassDeclarationAttributeExtender.cs" />
     <Compile Include="Rewriters\InterfaceDeclarationAttributeExtender.cs" />

@@ -8,7 +8,7 @@ namespace CodeContracts.Contrib.Managers
 {
     internal class ContractClassToProxyTransformer
     {
-        public string GetContractProxyClass(SyntaxNode rootNode, string interfaceName, string proxyClassName)
+        public string TransormToContractProxyClass(SyntaxNode rootNode, string interfaceName, string proxyClassName)
         {
             //Creating "public sealed class <interface-name>_proxy" class declaration.
 

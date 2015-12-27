@@ -136,7 +136,7 @@ namespace CodeContracts.Contrib
 
                 //Taking the code contract class syntax node and creating contract proxy class (replacing Contract.Requires() and Contract.Ensure() statements with 'if' statements).
 
-                var contactProxyClass = new ContractClassToProxyTransformer().GetContractProxyClass(rootNode, interfaceName, proxyClassName);
+                var contactProxyClass = new ContractClassToProxyTransformer().TransormToContractProxyClass(rootNode, interfaceName, proxyClassName);
                 File.WriteAllText(proxyClassFile, contactProxyClass);
                 
                 //Adding generated file to project and nesting it under the code contract file.

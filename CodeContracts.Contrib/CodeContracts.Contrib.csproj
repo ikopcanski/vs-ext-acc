@@ -54,7 +54,7 @@
     <Compile Include="Command_AddContractProxy.cs" />
     <Compile Include="Command_AddCodeContract.cs" />
     <Compile Include="CodeContractsContribPackage.cs" />
-    <Compile Include="Helpers\ContractExpressionTransformer.cs" />
+    <Compile Include="Managers\ContractExpressionTransformer.cs" />
     <Compile Include="Helpers\Extensions.cs" />
     <Compile Include="Helpers\IdentifiersHelper.cs" />
     <Compile Include="Helpers\VSModelHelper.cs" />

@@ -17,6 +17,7 @@
 
         public const string ProxyContractFieldName = "_contract";
         public const string ProxyContractParameterName = "contract";
+        public const string ProxyContractRetVal = "retVal";
 
         public static string GetCodeContractClassFile(string interfaceName)
         {

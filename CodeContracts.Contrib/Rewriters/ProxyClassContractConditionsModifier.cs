@@ -1,4 +1,5 @@
 ﻿using CodeContracts.Contrib.Helpers;
+using CodeContracts.Contrib.Managers;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -25,16 +26,23 @@ namespace CodeContracts.Contrib.Rewriters
 
             bool isVoid = node.ReturnType.Str().Trim() == "void";
 
-            StatementSyntax returnStatement = SyntaxFactory.EmptyStatement();
-            if (isVoid)
+            var methodName = node.Identifier.Str();
+            var parametersList = node.FirstChild<ParameterListSyntax>();
+            string argumentsStr = string.Join(", ", parametersList.Parameters.Select(p => p.Identifier.Str()).ToArray());
+
+            StatementSyntax contractCallStatement = SyntaxFactory.ParseStatement(string.Format("{0}.{1}({2});\r\n", IdentifiersHelper.ProxyContractFieldName, methodName, argumentsStr));
+            StatementSyntax returnStatement = null;
+
+            if (!isVoid)
             {
-                returnStatement = SyntaxFactory.ReturnStatement(SyntaxFactory.Token(SyntaxKind.PublicKeyword),
-                                                                SyntaxFactory.ParseExpression("int i = 1; //TODO: _contract(<params>)"),
-                                                                SyntaxFactory.Token(SyntaxKind.SemicolonToken));
+                
+                var contractCallExpressionStr = string.Format("var {0} = {1}.{2}({3});\r\n", IdentifiersHelper.ProxyContractRetVal, IdentifiersHelper.ProxyContractFieldName, methodName, argumentsStr);
+                contractCallStatement = SyntaxFactory.ParseStatement(contractCallExpressionStr);
+                returnStatement = SyntaxFactory.ParseStatement(string.Format("return {0};", IdentifiersHelper.ProxyContractRetVal));
             }
             
             var expressions = node.ChildrenOfType<ExpressionStatementSyntax>();
-            var statements = new ContractExpressionTransformer(returnStatement).Transform(expressions);
+            var statements = new ContractExpressionTransformer(contractCallStatement, returnStatement).Transform(expressions);
             return node.WithBody(SyntaxFactory.Block(statements));
         }
     }

@@ -10,33 +10,20 @@ namespace CodeContracts.Contrib.Helpers
         {
             return node.DescendantNodes().OfType<T>();
         }
-
+        
         public static T FirstChild<T>(this SyntaxNode node) where T : SyntaxNode
         {
             return node.DescendantNodes().OfType<T>().FirstOrDefault();
         }
-
+        
         public static string Str(this SyntaxNode node)
         {
             return node.ToFullString().Trim();
         }
 
-        public static string SubString(this string str, char openningChar, char closingChar)
+        public static string Str(this SyntaxToken token)
         {
-            if (str.Length <= 2)
-            {
-                return "";
-            }
-
-            var openningIndex = str.IndexOf(openningChar, 0);
-            var closingIndex = str.IndexOf(closingChar, 0);
-
-            if (openningIndex < 0 || closingIndex < 0 || openningIndex >= closingIndex || openningIndex + 1 == str.Length)
-            {
-                return "";
-            }
-            
-            return str.Substring(openningIndex + 1, closingIndex - openningIndex - 1);
+            return token.ToFullString().Trim();
         }
     }
 }

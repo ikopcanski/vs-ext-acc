@@ -1,53 +1,78 @@
-﻿using Microsoft.CodeAnalysis.CSharp;
+﻿using CodeContracts.Contrib.Helpers;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace CodeContracts.Contrib.Helpers
+namespace CodeContracts.Contrib.Managers
 {
     internal class ContractExpressionTransformer
     {
         private List<IContractExpressionStrategy> _strategies;
+        private StatementSyntax _contractCallStatement;
         private StatementSyntax _returnStatement; 
 
-        public ContractExpressionTransformer(StatementSyntax returnStatement)
+        public ContractExpressionTransformer(StatementSyntax contractCallStatement, StatementSyntax returnStatement)
         {
             _strategies = new List<IContractExpressionStrategy>()
             {
                 new GenericRequiresExpressionStrategy(),
                 new SimpleRequiresExpressionStrategy(),
                 new EnsuresExpressionStrategy(),
-                new EmptyExpressionStrategy()
+                new DefaultExpressionStrategy()
             }
             .OrderByDescending(s => s.Priority).ToList();
+            _contractCallStatement = contractCallStatement;
             _returnStatement = returnStatement;
         }
 
-        private StatementSyntax Transform(ExpressionStatementSyntax exp)
+        private Tuple<StatementSyntax, bool> Transform(ExpressionStatementSyntax exp)
         {
             StatementSyntax retVal = null;
+            bool isPreCondition = false;
 
             foreach (var strategy in _strategies)
             {
                 if (strategy.IsMine(exp))
                 {
                     retVal = strategy.Transform(exp);
+                    isPreCondition = strategy.IsPreCondition(exp);
                     break;
                 }
             }
 
-            return retVal;
+            return new Tuple<StatementSyntax, bool>(retVal, isPreCondition);
         }
 
         public IEnumerable<StatementSyntax> Transform(IEnumerable<ExpressionStatementSyntax> expressions)
         {
+            var preConditionStatements = new List<StatementSyntax>();
+            var postConditionStatements = new List<StatementSyntax>();
+
             foreach (var expression in expressions)
             {
-                yield return Transform(expression);
+                var statement = Transform(expression);
+                if (statement.Item2)
+                {
+                    preConditionStatements.Add(statement.Item1);
+                }
+                else
+                {
+                    postConditionStatements.Add(statement.Item1);
+                }
             }
+
+            var retVal = preConditionStatements.Union(new[] { _contractCallStatement }).Union(postConditionStatements);
+            if (_returnStatement != null)
+            {
+                retVal = retVal.Union(new[] { _returnStatement });
+            }
+
+            return retVal;          
         }
     }
 
@@ -55,6 +80,7 @@ namespace CodeContracts.Contrib.Helpers
     {
         int Priority { get; }
         bool IsMine(ExpressionStatementSyntax exp);
+        bool IsPreCondition(ExpressionStatementSyntax exp);
         StatementSyntax Transform(ExpressionStatementSyntax exp);
     }
 
@@ -67,6 +93,8 @@ namespace CodeContracts.Contrib.Helpers
             return exp.Str().StartsWith("Contract.Requires<");
         }
 
+        public bool IsPreCondition(ExpressionStatementSyntax exp) { return true; }
+
         public StatementSyntax Transform(ExpressionStatementSyntax exp)
         {
             var exceptionType = exp.FirstChild<GenericNameSyntax>()
@@ -77,14 +105,14 @@ namespace CodeContracts.Contrib.Helpers
 
             var condition = argumentsList.Arguments.FirstOrDefault().Str();
 
-            var message = string.Format("Precondition '{0}' is not satisfied!", condition);
+            var message = string.Format("\"Precondition '{0}' is not satisfied!\"", condition);
             
             if (argumentsList.Arguments.Count == 2)
             {
                 message = argumentsList.Arguments.Skip(1).FirstOrDefault().Str();
             }
 
-            var statementStr = string.Format("if ({0}) {{ throw new {1}({2}); }}", condition, exceptionType, message);
+            var statementStr = string.Format("if (!({0})) \r\n {{ \r\n throw new {1}({2}); \r\n }}", condition, exceptionType, message);
 
             return SyntaxFactory.ParseStatement(statementStr);
         }
@@ -99,20 +127,22 @@ namespace CodeContracts.Contrib.Helpers
             return exp.Str().StartsWith("Contract.Requires(");
         }
 
+        public bool IsPreCondition(ExpressionStatementSyntax exp) { return true; }
+
         public StatementSyntax Transform(ExpressionStatementSyntax exp)
         {
             var argumentsList = exp.FirstChild<ArgumentListSyntax>();
 
             var condition = argumentsList.Arguments.FirstOrDefault().Str();
 
-            var message = string.Format("Precondition '{0}' is not satisfied!", condition);
+            var message = string.Format("\"Precondition '{0}' is not satisfied!\"", condition);
 
             if (argumentsList.Arguments.Count == 2)
             {
                 message = argumentsList.Arguments.Skip(1).FirstOrDefault().Str();
             }
 
-            var statementStr = string.Format("if ({0}) {{ throw new Exception({1}); }}", condition, message);
+            var statementStr = string.Format("if (!({0})) \r\n {{ \r\n throw new Exception({1}); \r\n }}", condition, message);
 
             return SyntaxFactory.ParseStatement(statementStr);
         }
@@ -127,20 +157,36 @@ namespace CodeContracts.Contrib.Helpers
             return exp.Str().StartsWith("Contract.Ensures(");
         }
 
+        public bool IsPreCondition(ExpressionStatementSyntax exp) { return false; }
+
         public StatementSyntax Transform(ExpressionStatementSyntax exp)
         {
-            return SyntaxFactory.EmptyStatement();
+            var argumentsList = exp.FirstChild<ArgumentListSyntax>();
+
+            var condition = argumentsList.Arguments.FirstOrDefault().Str();
+
+            condition = Regex.Replace(condition, @"Contract.Result<\w+>\(\)", IdentifiersHelper.ProxyContractRetVal);
+
+            var message = string.Format("\"Postcondition '{0}' is not satisfied!\"", condition);
+
+            if (argumentsList.Arguments.Count == 2)
+            {
+                message = argumentsList.Arguments.Skip(1).FirstOrDefault().Str();
+            }
+
+            var statementStr = string.Format("if (!({0})) \r\n {{ \r\n throw new Exception({1}); \r\n }}", condition, message);
+
+            return SyntaxFactory.ParseStatement(statementStr);
         }
     }
 
-    internal class EmptyExpressionStrategy : IContractExpressionStrategy
+    internal class DefaultExpressionStrategy : IContractExpressionStrategy
     {
         public int Priority { get { return 0; } }
 
-        public bool IsMine(ExpressionStatementSyntax exp)
-        {
-            return true;
-        }
+        public bool IsMine(ExpressionStatementSyntax exp) { return true; }
+
+        public bool IsPreCondition(ExpressionStatementSyntax exp) { return false; }
 
         public StatementSyntax Transform(ExpressionStatementSyntax exp)
         {

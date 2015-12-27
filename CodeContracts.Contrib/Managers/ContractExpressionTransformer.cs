@@ -48,6 +48,12 @@ namespace CodeContracts.Contrib.Managers
             return new Tuple<StatementSyntax, bool>(retVal, isPreCondition);
         }
 
+        /// <summary>
+        /// Transforms list of Contract.Requires<T>(...) and/or Contract.Requires(...) statements into 'if' statements that throw corresponding exception. 
+        /// Embeds the contract method call statement and return value statement, so result is complete method body with statements.
+        /// </summary>
+        /// <param name="expressions">List of expressions that should be transformed.</param>
+        /// <returns>complete method body with statements.</returns>
         public IEnumerable<StatementSyntax> Transform(IEnumerable<ExpressionStatementSyntax> expressions)
         {
             var preConditionStatements = new List<StatementSyntax>();

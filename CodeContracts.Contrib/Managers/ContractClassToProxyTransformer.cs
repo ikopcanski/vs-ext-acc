@@ -26,7 +26,9 @@ namespace CodeContracts.Contrib.Managers
 
             classNode = new ProxyClassConstructorCreator(interfaceName).Visit(classNode);
 
-            //TODO: In method/property declarations: replace Contract.Requires() and Contract.Ensure() statements with if statements that throw Exception(contract message)
+            //TODO: In method/property declarations: replace Contract.Requires<T>() and Contract.Ensures<T>() statements with if statements that throw Exception(contract message)
+
+            classNode = new ProxyClassContractConditionsModifier(IdentifiersHelper.ProxyContractFieldName).Visit(classNode);
 
             //Prettifying the code (indents, spaces etc)
 

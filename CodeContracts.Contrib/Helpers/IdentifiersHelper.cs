@@ -15,6 +15,9 @@
         public const string AttributeName_ContractClass = "ContractClass";
         public const string AttributeName_ContractProxy = "ContractProxy";
 
+        public const string ProxyContractFieldName = "_contract";
+        public const string ProxyContractParameterName = "contract";
+
         public static string GetCodeContractClassFile(string interfaceName)
         {
             return interfaceName + CodeContractClassFileSuffix;

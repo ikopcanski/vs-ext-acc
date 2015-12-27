@@ -34,7 +34,7 @@ namespace CodeContracts.Contrib.Managers
 
             classNode = Formatter.Format(classNode, MSBuildWorkspace.Create());
 
-            return classNode.ToFullString();
+            return classNode.Str();
         }
     }
 }

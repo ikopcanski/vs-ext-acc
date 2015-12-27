@@ -17,13 +17,25 @@ namespace CodeContracts.Contrib.Rewriters
 
         public override SyntaxNode VisitMethodDeclaration(MethodDeclarationSyntax node)
         {
-            bool isVoid = node.ReturnType.ToFullString().Trim() == "void";
+            //Transforming Contract.Requires<>(precondition, message) and Contract.Ensures(postcondition, message) statements into block like this:
+            //if (precondition) throw Exception(message); 
+            //var retVal = _contract.Method(params);
+            //if (postcondition) throw Exception(message);
+            //return retVal;
 
-            var requireStatements = node.ChildrenOfType<ExpressionStatementSyntax>().Where(e => e.ToFullString().Contains("Contract.Requires<"));
+            bool isVoid = node.ReturnType.Str().Trim() == "void";
+
+            StatementSyntax returnStatement = SyntaxFactory.EmptyStatement();
+            if (isVoid)
+            {
+                returnStatement = SyntaxFactory.ReturnStatement(SyntaxFactory.Token(SyntaxKind.PublicKeyword),
+                                                                SyntaxFactory.ParseExpression("int i = 1; //TODO: _contract(<params>)"),
+                                                                SyntaxFactory.Token(SyntaxKind.SemicolonToken));
+            }
             
-            var ensureStatements = node.ChildrenOfType<ExpressionStatementSyntax>().Where(e => e.ToFullString().Contains("Contract.Ensures<"));
-
-            return node;
+            var expressions = node.ChildrenOfType<ExpressionStatementSyntax>();
+            var statements = new ContractExpressionTransformer(returnStatement).Transform(expressions);
+            return node.WithBody(SyntaxFactory.Block(statements));
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using CodeContracts.Contrib.Helpers;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Linq;
@@ -64,7 +65,7 @@ namespace CodeContracts.Contrib.Rewriters
 
 
             var bodyDeclaration = GetEmptyBlockWithComment();
-            var returnTypeValue = returnType.ToFullString().Trim();
+            var returnTypeValue = returnType.Str();
             if (returnTypeValue != "void")
             {
                 var returnStatement = string.Format("\r\n//Code contract checks here...\r\nreturn default({0});\r\n", returnTypeValue);

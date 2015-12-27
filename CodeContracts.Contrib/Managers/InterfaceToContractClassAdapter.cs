@@ -25,7 +25,7 @@ namespace CodeContracts.Contrib.Managers
 
             //Formatting (empty spaces, indents etc)
 
-            return classNode.NormalizeWhitespace().ToFullString();
+            return classNode.NormalizeWhitespace().Str();
         }
     }
 

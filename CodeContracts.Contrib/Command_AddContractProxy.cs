@@ -119,7 +119,7 @@ namespace CodeContracts.Contrib
 
                 //Checking if selected file is class declaration with "[ContractClassFor(...)] attribute.
 
-                var attributeNode = classes.First().ChildrenOfType<AttributeSyntax>().FirstOrDefault(a => a.ToFullString().Contains(IdentifiersHelper.AttributeName_ContractClassFor));
+                var attributeNode = classes.First().ChildrenOfType<AttributeSyntax>().FirstOrDefault(a => a.Str().Contains(IdentifiersHelper.AttributeName_ContractClassFor));
                 if (attributeNode == null)
                 {
                     VSModelHelper.ShowMessage(ServiceProvider, "Command Error", "Please select single file containing generated code contract class (result of 'Create Code Contract' command).");
@@ -128,7 +128,7 @@ namespace CodeContracts.Contrib
 
                 //Determining code contract class and interface name - forming the contract proxy class name and the name of the file that will be created.
 
-                var interfaceName = attributeNode.ChildrenOfType<TypeOfExpressionSyntax>().First().Type.ToFullString();
+                var interfaceName = attributeNode.ChildrenOfType<TypeOfExpressionSyntax>().First().Type.Str();
                 var contractClassNode = rootNode.ChildrenOfType<ClassDeclarationSyntax>().First();
                 var contractClassName = contractClassNode.Identifier.Text.Trim();
                 var proxyClassName = IdentifiersHelper.GetContractProxyClassName(contractClassName);

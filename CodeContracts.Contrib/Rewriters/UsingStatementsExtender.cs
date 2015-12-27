@@ -1,4 +1,5 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using CodeContracts.Contrib.Helpers;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Linq;
@@ -18,7 +19,7 @@ namespace CodeContracts.Contrib.Rewriters
         {
             //Adding using statement for given qualified name.
 
-            if (node.Usings.Any(u => u.Name.ToFullString().Trim() == _qualifiedName))
+            if (node.Usings.Any(u => u.Name.Str() == _qualifiedName))
             {
                 return node;
             }

@@ -24,8 +24,8 @@ namespace CodeContracts.Contrib.Rewriters
                                      .WithModifiers(SyntaxFactory.TokenList(SyntaxFactory.Token(SyntaxKind.PrivateKeyword),
                                                                             SyntaxFactory.Token(SyntaxKind.ReadOnlyKeyword))); 
 
-            var parameters = SyntaxFactory.ParseParameterList(string.Format("({0} {1})", _interfaceName, IdentifiersHelper.ProxyContractParameterName));
-            var statement = SyntaxFactory.ParseStatement(string.Format("{0} = {1};", IdentifiersHelper.ProxyContractFieldName, IdentifiersHelper.ProxyContractParameterName));
+            var parameters = SyntaxFactory.ParseParameterList(string.Format("({0} {1})", _interfaceName, IdentifiersHelper.ProxyContractCtorParamName));
+            var statement = SyntaxFactory.ParseStatement(string.Format("{0} = {1};", IdentifiersHelper.ProxyContractFieldName, IdentifiersHelper.ProxyContractCtorParamName));
             var block = SyntaxFactory.Block().WithStatements(SyntaxFactory.List(new[] { statement }));
             var constructor = SyntaxFactory.ConstructorDeclaration(node.Identifier)
                                            .WithModifiers(SyntaxFactory.TokenList(SyntaxFactory.Token(SyntaxKind.PublicKeyword)))

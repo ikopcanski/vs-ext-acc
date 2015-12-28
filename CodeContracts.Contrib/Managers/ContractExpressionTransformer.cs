@@ -14,9 +14,10 @@ namespace CodeContracts.Contrib.Managers
     {
         private List<IContractExpressionStrategy> _strategies;
         private StatementSyntax _contractCallStatement;
-        private StatementSyntax _returnStatement; 
+        private StatementSyntax _returnStatement;
+        private string _returnVarName;
 
-        public ContractExpressionTransformer(StatementSyntax contractCallStatement, StatementSyntax returnStatement)
+        public ContractExpressionTransformer(StatementSyntax contractCallStatement, StatementSyntax returnStatement, string returnVarName)
         {
             _strategies = new List<IContractExpressionStrategy>()
             {
@@ -28,6 +29,7 @@ namespace CodeContracts.Contrib.Managers
             .OrderByDescending(s => s.Priority).ToList();
             _contractCallStatement = contractCallStatement;
             _returnStatement = returnStatement;
+            _returnVarName = returnVarName;
         }
 
         private Tuple<StatementSyntax, bool> Transform(ExpressionStatementSyntax exp)
@@ -39,7 +41,7 @@ namespace CodeContracts.Contrib.Managers
             {
                 if (strategy.IsMine(exp))
                 {
-                    retVal = strategy.Transform(exp);
+                    retVal = strategy.Transform(exp, _returnVarName);
                     isPreCondition = strategy.IsPreCondition(exp);
                     break;
                 }
@@ -87,7 +89,7 @@ namespace CodeContracts.Contrib.Managers
         int Priority { get; }
         bool IsMine(ExpressionStatementSyntax exp);
         bool IsPreCondition(ExpressionStatementSyntax exp);
-        StatementSyntax Transform(ExpressionStatementSyntax exp);
+        StatementSyntax Transform(ExpressionStatementSyntax exp, string returnVarName);
     }
 
     internal class GenericRequiresExpressionStrategy : IContractExpressionStrategy
@@ -101,7 +103,7 @@ namespace CodeContracts.Contrib.Managers
 
         public bool IsPreCondition(ExpressionStatementSyntax exp) { return true; }
 
-        public StatementSyntax Transform(ExpressionStatementSyntax exp)
+        public StatementSyntax Transform(ExpressionStatementSyntax exp, string returnVarName)
         {
             var exceptionType = exp.FirstChild<GenericNameSyntax>()
                                    .ChildrenOfType<IdentifierNameSyntax>()
@@ -135,7 +137,7 @@ namespace CodeContracts.Contrib.Managers
 
         public bool IsPreCondition(ExpressionStatementSyntax exp) { return true; }
 
-        public StatementSyntax Transform(ExpressionStatementSyntax exp)
+        public StatementSyntax Transform(ExpressionStatementSyntax exp, string returnVarName)
         {
             var argumentsList = exp.FirstChild<ArgumentListSyntax>();
 
@@ -165,13 +167,13 @@ namespace CodeContracts.Contrib.Managers
 
         public bool IsPreCondition(ExpressionStatementSyntax exp) { return false; }
 
-        public StatementSyntax Transform(ExpressionStatementSyntax exp)
+        public StatementSyntax Transform(ExpressionStatementSyntax exp, string returnVarName)
         {
             var argumentsList = exp.FirstChild<ArgumentListSyntax>();
 
             var condition = argumentsList.Arguments.FirstOrDefault().Str();
 
-            condition = Regex.Replace(condition, @"Contract.Result<\w+>\(\)", IdentifiersHelper.ProxyContractRetVal);
+            condition = Regex.Replace(condition, @"Contract.Result<\w+>\(\)", returnVarName);
 
             var message = string.Format("\"Postcondition '{0}' is not satisfied!\"", condition);
 
@@ -194,7 +196,7 @@ namespace CodeContracts.Contrib.Managers
 
         public bool IsPreCondition(ExpressionStatementSyntax exp) { return false; }
 
-        public StatementSyntax Transform(ExpressionStatementSyntax exp)
+        public StatementSyntax Transform(ExpressionStatementSyntax exp, string returnVarName)
         {
             return SyntaxFactory.EmptyStatement();
         }

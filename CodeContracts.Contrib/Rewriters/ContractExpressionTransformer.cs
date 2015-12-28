@@ -8,7 +8,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace CodeContracts.Contrib.Managers
+namespace CodeContracts.Contrib.Rewriters
 {
     internal class ContractExpressionTransformer
     {

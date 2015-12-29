@@ -10,8 +10,9 @@ using Microsoft.VisualStudio.Shell;
 using CodeContracts.Contrib.Helpers;
 using System.Linq;
 using System.IO;
-
-
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.MSBuild;
+using Microsoft.CodeAnalysis.Formatting;
 
 namespace CodeContracts.Contrib
 {
@@ -78,7 +79,7 @@ namespace CodeContracts.Contrib
             var myCommand = sender as OleMenuCommand;
             if (myCommand != null)
             {
-                myCommand.Text = "Add Contract Proxy";
+                myCommand.Text = "Add ContactProxyAttribute";
             }
 
             GenerateContractProxyAttributeFile();
@@ -98,24 +99,26 @@ namespace CodeContracts.Contrib
 
             var item = items.First();
             var projectDir = item.Properties.Item("FullPath").Value.ToString();
-            var attributeFile = string.Format(@"{0}\{1}{2}", projectDir, "ContractProxyAttribute", ".cs");
+            var attributeFile = string.Format(@"{0}{1}{2}", projectDir, "ContractProxyAttribute", ".cs");
 
             string attributeCode = @"using System;
-namespace CodeContracts.Contrib
-{
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = false)]
-    public class ContractProxyAttribute : Attribute
-    {
-        public Type ContractType { get; private set; }
+                                    namespace CodeContracts.Contrib
+                                    {
+                                        [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = false)]
+                                        public class ContractProxyAttribute : Attribute
+                                        {
+                                            public Type ContractType { get; private set; }
 
-        public ContractProxyAttribute(Type contractType)
-        {
-            ContractType = contractType;
-        }
-    }
-}";
+                                            public ContractProxyAttribute(Type contractType)
+                                            {
+                                                ContractType = contractType;
+                                            }
+                                        }
+                                    }";
+            var attributeNode = CSharpSyntaxTree.ParseText(attributeCode).GetRoot();
+            attributeCode = Formatter.Format(attributeNode, MSBuildWorkspace.Create()).Str();
 
-            //File.WriteAllText(attributeFile, attributeCode);
+            File.WriteAllText(attributeFile, attributeCode);
 
             item. ProjectItems.AddFromFile(attributeFile);
         }

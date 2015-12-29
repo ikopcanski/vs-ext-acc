@@ -38,7 +38,7 @@
         <Parent guid="guidCodeContractsContribPackageCmdSet2" id="MyMenuGroup" />
         <Icon guid="guidImages2" id="bmpPic1" />
         <Strings>
-          <ButtonText>Create [ContractProxy]</ButtonText>
+          <ButtonText>Create ContractProxyAttribute</ButtonText>
         </Strings>
       </Button>
     </Buttons>

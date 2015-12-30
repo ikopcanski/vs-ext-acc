@@ -18,14 +18,9 @@ namespace CodeContracts.Contrib.Rewriters
 
         public override SyntaxNode VisitAccessorDeclaration(AccessorDeclarationSyntax node)
         {
-            if (node.Str() == "get;" || node.Str() == "set;")
-            {
-                return node;
-            }
-
             var propertyName = ((PropertyDeclarationSyntax)node.Parent.Parent).Identifier.Str();
             var contractPropertyAccessor = string.Format("{0}.{1}", IdentifiersHelper.ProxyContractFieldName, propertyName);
-            var isSetter = node.Str().StartsWith("set");
+            var isSetter = node.Kind() == SyntaxKind.SetAccessorDeclaration;
             
             var contractCallStatement = SyntaxFactory.ParseStatement(string.Format("{0} = value;\r\n", contractPropertyAccessor));
             StatementSyntax returnStatement = null;
@@ -38,7 +33,9 @@ namespace CodeContracts.Contrib.Rewriters
 
             var expressions = node.ChildrenOfType<ExpressionStatementSyntax>();
             var statements = new ContractExpressionTransformer(contractCallStatement, returnStatement, isSetter ? contractPropertyAccessor : IdentifiersHelper.ProxyContractRetVal).Transform(expressions);
-            return node.WithBody(SyntaxFactory.Block(statements));
+            
+            var syntaxKind = isSetter ? SyntaxKind.SetAccessorDeclaration : SyntaxKind.GetAccessorDeclaration;
+            return SyntaxFactory.AccessorDeclaration(syntaxKind, SyntaxFactory.Block(statements));       
         }
 
 

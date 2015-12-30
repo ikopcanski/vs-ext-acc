@@ -113,7 +113,7 @@ namespace CodeContracts.Contrib.Rewriters
 
             var condition = argumentsList.Arguments.FirstOrDefault().Str();
 
-            var message = string.Format("\"Precondition '{0}' is not satisfied!\"", condition);
+            var message = string.Format("\"Precondition ({0}) is not satisfied!\"", condition.Replace('"', '\''));
             
             if (argumentsList.Arguments.Count == 2)
             {
@@ -143,7 +143,7 @@ namespace CodeContracts.Contrib.Rewriters
 
             var condition = argumentsList.Arguments.FirstOrDefault().Str();
 
-            var message = string.Format("\"Precondition '{0}' is not satisfied!\"", condition);
+            var message = string.Format("\"Precondition ({0}) is not satisfied!\"", condition.Replace('"', '\''));
 
             if (argumentsList.Arguments.Count == 2)
             {
@@ -175,7 +175,7 @@ namespace CodeContracts.Contrib.Rewriters
 
             condition = Regex.Replace(condition, @"Contract.Result<\w+>\(\)", returnVarName);
 
-            var message = string.Format("\"Postcondition '{0}' is not satisfied!\"", condition);
+            var message = string.Format("\"Postcondition ({0}) is not satisfied!\"", condition.Replace('"', '\''));
 
             if (argumentsList.Arguments.Count == 2)
             {
@@ -192,13 +192,13 @@ namespace CodeContracts.Contrib.Rewriters
     {
         public int Priority { get { return 0; } }
 
-        public bool IsMine(ExpressionStatementSyntax exp) { return true; }
+        public bool IsMine(ExpressionStatementSyntax exp) { return exp.Str().StartsWith("Contract."); ; }
 
-        public bool IsPreCondition(ExpressionStatementSyntax exp) { return false; }
+        public bool IsPreCondition(ExpressionStatementSyntax exp) { return true; }
 
         public StatementSyntax Transform(ExpressionStatementSyntax exp, string returnVarName)
         {
-            return SyntaxFactory.EmptyStatement();
+            return exp;
         }
     }
 }

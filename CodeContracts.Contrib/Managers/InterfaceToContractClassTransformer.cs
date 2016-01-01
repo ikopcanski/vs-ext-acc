@@ -46,12 +46,6 @@ namespace CodeContracts.Contrib.Managers
             //replacing 'interface' with 'class'
 
             return classNode.Str().Replace("internal abstract interface", "internal abstract class");
-        }
-
-            
+        }       
     }
-
-    
-
-    
 }

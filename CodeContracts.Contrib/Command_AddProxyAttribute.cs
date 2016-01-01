@@ -79,7 +79,7 @@ namespace CodeContracts.Contrib
             var myCommand = sender as OleMenuCommand;
             if (myCommand != null)
             {
-                myCommand.Text = "Add ContactProxyAttribute";
+                myCommand.Text = "Add ContractProxyAttribute";
             }
 
             GenerateContractProxyAttributeFile();

@@ -33,8 +33,8 @@ namespace CodeContracts.Contrib.Rewriters
         }
 
         /// <summary>
-        /// Transforms list of Contract.Requires<T>(...) and/or Contract.Requires(...) statements into 'if' statements that throw corresponding exception. 
-        /// Embeds the contract method call statement and return value statement, so result is complete method body with statements.
+        /// Transforms list of Contract.Requires<T>(...) and/or Contract.Ensures(...) statements into 'if' statements that throw corresponding exception. 
+        /// Further, it puts the contract method call statement in between 'if' statements, so result is complete method body with 'if' statements.
         /// </summary>
         /// <param name="expressions">List of expressions that should be transformed.</param>
         /// <returns>complete method body with statements.</returns>
@@ -71,6 +71,13 @@ namespace CodeContracts.Contrib.Rewriters
             return retVal;          
         }
 
+        /// <summary>
+        /// Transforms single Contract.* section into 'if-then-throw' statement by picking one of strategies to do it.
+        /// E.G. it transforms 'Contracts.Requires<InvalidArgumentException>(a > 0, "Some message"); into:
+        /// if (!(a > 0)) { throw new InvalidArgumentException("Some message"); }
+        /// </summary>
+        /// <param name="exp">Contract.* expression that should be transformed into 'if-then-throw' statement.</param>
+        /// <returns></returns>
         private ContractStatementTransform Transform(ExpressionStatementSyntax exp)
         {
             ContractStatementTransform retVal = null;
@@ -143,7 +150,7 @@ namespace CodeContracts.Contrib.Rewriters
 
                 if (validation.StartsWith("Contract.OldValue"))
                 {
-                    var assignment = string.Format("var {0}_old = {1};", idendifier, idendifier);
+                    var assignment = string.Format(@"var {0}_old = {1};", idendifier, idendifier);
                     yield return SyntaxFactory.ParseStatement(assignment);
                 }
             }

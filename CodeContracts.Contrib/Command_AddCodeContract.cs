@@ -26,7 +26,7 @@ namespace CodeContracts.Contrib
 
         public static readonly Guid CommandSet = new Guid("8a37555e-23b6-4c43-b200-702b66b0326d");
 
-        public const int CommandId = 0x0100;
+        public const int CommandId = 256;
 
         private readonly Package package;
 
@@ -107,6 +107,7 @@ namespace CodeContracts.Contrib
                 var sourceCode = File.ReadAllText(filePath);
                 var syntaxTree = CSharpSyntaxTree.ParseText(sourceCode);
                 var rootNode = syntaxTree.GetRoot();
+
                 var interfaces = rootNode.ChildrenOfType<InterfaceDeclarationSyntax>().ToArray();
                 var classes = rootNode.ChildrenOfType<ClassDeclarationSyntax>().ToArray();
 

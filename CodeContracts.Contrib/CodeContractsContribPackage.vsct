@@ -53,9 +53,11 @@
 
   <Symbols>
     <!-- This is the package guid. -->
+    
     <GuidSymbol name="guidCodeContractsContribPackage" value="{19ecedc7-cd34-447c-a495-7cda1b59666c}" />
 
-    <!-- This is the guid used to group the menu commands together -->
+    <!-- Create Code Contract -->
+    
     <GuidSymbol name="guidCodeContractsContribPackageCmdSet" value="{8a37555e-23b6-4c43-b200-702b66b0326d}">
       <IDSymbol name="MyMenuGroup" value="0x1020" />
       <IDSymbol name="cmdidAddCodeContract" value="0x0100" />
@@ -70,6 +72,8 @@
       <IDSymbol name="bmpPicStrikethrough" value="6" />
     </GuidSymbol>
   
+    <!--Create Contract Proxy-->
+    
     <GuidSymbol value="{19db6c4c-af0a-46b8-80ff-02a586ed1574}" name="guidCodeContractsContribPackageCmdSet1">
       <IDSymbol value="4128" name="MyMenuGroup" />
       <IDSymbol value="256" name="cmdidAddContractProxy" />
@@ -84,6 +88,8 @@
       <IDSymbol name="bmpPicStrikethrough" value="6" />
     </GuidSymbol>
   
+    <!--Create ContractProxyAttribute-->
+    
     <GuidSymbol value="{61063f2f-f3b9-4140-8fae-2ed8036d9640}" name="guidCodeContractsContribPackageCmdSet2">
       <IDSymbol value="4128" name="MyMenuGroup" />
       <IDSymbol value="256" name="cmdidAddProxyAttribute" />

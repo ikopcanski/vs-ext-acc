@@ -7,12 +7,12 @@ namespace CodeContracts.Contrib.Managers
     public class InterfaceToContractClassAdapter
     {
         /// <summary>
-        /// Addapts interface definition for joint usage with generated code contract class.
+        /// Addapts interface definition in order to use it with generated code contract class.
         /// Adding using statements and attributes necessary for coupling with code contract class.
         /// </summary>
         /// <param name="interfaceNode">Interface definition to be addapted.</param>
         /// <param name="contractClassName">Generated contract class name.</param>
-        // <returns>Adapted interface definition - string representation</returns>
+        // <returns>C# code of adapted interface definition - string representation</returns>
         public string AdaptInterfaceForContractClass(SyntaxNode interfaceNode, string contractClassName)
         {
             //Inserting 'using Microsoft.CodeAnalysis.Diagnostics' namespace needed for code contract attributes.

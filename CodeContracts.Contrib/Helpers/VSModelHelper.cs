@@ -4,31 +4,30 @@ using Microsoft.VisualStudio.Shell.Interop;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CodeContracts.Contrib.Helpers
 {
     internal class VSModelHelper
     {
-        public static MenuCommand GetCreateCodeContractCommand(IServiceProvider provider)
-        {
-            var commandService = provider.GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
-            return commandService.FindCommand(new CommandID(Guid.Parse("8a37555e-23b6-4c43-b200-702b66b0326d"), 256));
-        }
+        //public static MenuCommand GetCreateCodeContractCommand(IServiceProvider provider)
+        //{
+        //    var commandService = provider.GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
+        //    return commandService.FindCommand(new CommandID(Guid.Parse("8a37555e-23b6-4c43-b200-702b66b0326d"), 256));
+        //}
 
-        public static MenuCommand GetCreateContractProxyCommand(IServiceProvider provider)
-        {
-            var commandService = provider.GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
-            return commandService.FindCommand(new CommandID(Guid.Parse("19db6c4c-af0a-46b8-80ff-02a586ed1574"), 256));
-        }
+        //public static MenuCommand GetCreateContractProxyCommand(IServiceProvider provider)
+        //{
+        //    var commandService = provider.GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
+        //    return commandService.FindCommand(new CommandID(Guid.Parse("19db6c4c-af0a-46b8-80ff-02a586ed1574"), 256));
+        //}
 
-        public static MenuCommand GetCreateProxyAttributeCommand(IServiceProvider provider)
-        {
-            var commandService = provider.GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
-            return commandService.FindCommand(new CommandID(Guid.Parse("61063f2f-f3b9-4140-8fae-2ed8036d9640"), 256));
-        }
+        //public static MenuCommand GetCreateProxyAttributeCommand(IServiceProvider provider)
+        //{
+        //    var commandService = provider.GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
+        //    return commandService.FindCommand(new CommandID(Guid.Parse("61063f2f-f3b9-4140-8fae-2ed8036d9640"), 256));
+        //}
 
         public static IEnumerable<ProjectItem> GetSelectedItems(IServiceProvider provider)
         {
@@ -56,6 +55,28 @@ namespace CodeContracts.Contrib.Helpers
                     yield return selectedItem.Object as Project;
                 }
             }
+        }
+
+        public static IEnumerable<ProjectItem> GetAllCodeContractsInSolution(IServiceProvider provider)
+        {
+            var appObject = provider.GetService(typeof(DTE)) as EnvDTE80.DTE2;
+            var solutionDirectory = Path.GetDirectoryName(appObject.Solution.FullName);
+            var codeContractFiles = GetFiles(solutionDirectory, "*.contract.cs");
+            foreach (var codeContractFile in codeContractFiles)
+            {
+                yield return appObject.Solution.FindProjectItem(codeContractFile);
+            }
+        }
+
+        private static IEnumerable<string> GetFiles(string directory, string fileNamePattern)
+        {
+            var directoryInfo = new DirectoryInfo(directory);
+            var files = directoryInfo.GetFiles(fileNamePattern).Select(f => f.FullName).ToArray();
+            foreach (var subDirectory in directoryInfo.GetDirectories())
+            {
+                files = files.Union(GetFiles(subDirectory.FullName, fileNamePattern)).ToArray();
+            }
+            return files;
         }
 
         public static void ShowMessage(IServiceProvider provider, string title, string message)

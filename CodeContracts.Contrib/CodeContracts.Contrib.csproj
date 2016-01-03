@@ -51,6 +51,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Command_AddContractProxyExtension.cs" />
     <Compile Include="Command_AddAllContractProxies.cs" />
     <Compile Include="Command_AddProxyAttribute.cs" />
     <Compile Include="Command_AddContractProxy.cs" />
@@ -94,6 +95,7 @@
     <Content Include="Resources\AddAllContractProxies.png" />
     <Content Include="Resources\AddCodeContract.png" />
     <Content Include="Resources\AddContractProxy.png" />
+    <Content Include="Resources\AddContractProxyExtension.png" />
     <Content Include="Resources\AddProxyAttribute.png" />
     <Content Include="Resources\CodeContractsContribPackage.ico" />
   </ItemGroup>

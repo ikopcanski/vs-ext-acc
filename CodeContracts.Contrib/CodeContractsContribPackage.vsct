@@ -19,6 +19,9 @@
       <Group guid="guidCodeContractsContribPackageCmdSet3" id="MyMenuGroup" priority="0x0600">
         <Parent guid="guidSHLMainMenu" id="IDM_VS_TOOL_PROJWIN" />
       </Group>
+      <Group guid="guidCodeContractsContribPackageCmdSet4" id="MyMenuGroup" priority="0x0600">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_PROJNODE" />
+      </Group>
     </Groups>
 
     <!--Buttons section. -->
@@ -51,6 +54,13 @@
           <ButtonText>Create All Contract Proxies</ButtonText>
         </Strings>
       </Button>
+      <Button guid="guidCodeContractsContribPackageCmdSet4" id="cmdidAddContractProxyExtension" priority="0x0100" type="Button">
+        <Parent guid="guidCodeContractsContribPackageCmdSet2" id="MyMenuGroup" />
+        <Icon guid="guidImages4" id="bmpPic1" />
+        <Strings>
+          <ButtonText>Create Contract Proxy Extension</ButtonText>
+        </Strings>
+      </Button>
     </Buttons>
 
     <!--The bitmaps section is used to define the bitmaps that are used for the commands.-->
@@ -59,6 +69,7 @@
       <Bitmap guid="guidImages1" href="Resources\AddContractProxy.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough" />
       <Bitmap guid="guidImages2" href="Resources\AddProxyAttribute.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough" />
       <Bitmap guid="guidImages3" href="Resources\AddAllContractProxies.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough" />
+      <Bitmap guid="guidImages4" href="Resources\AddContractProxyExtension.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough" />
     </Bitmaps>
   </Commands>
 
@@ -123,6 +134,22 @@
     </GuidSymbol>
   
     <GuidSymbol value="{24ce4fcd-38de-46dc-bf15-3d25ea710960}" name="guidImages3">
+      <IDSymbol name="bmpPic1" value="1" />
+      <IDSymbol name="bmpPic2" value="2" />
+      <IDSymbol name="bmpPicSearch" value="3" />
+      <IDSymbol name="bmpPicX" value="4" />
+      <IDSymbol name="bmpPicArrows" value="5" />
+      <IDSymbol name="bmpPicStrikethrough" value="6" />
+    </GuidSymbol>
+  
+    <!--Create Contract Proxy Extension-->
+    
+    <GuidSymbol value="{459931a1-066a-4950-83d5-16d94e80d212}" name="guidCodeContractsContribPackageCmdSet4">
+      <IDSymbol value="4128" name="MyMenuGroup" />
+      <IDSymbol value="256" name="cmdidAddContractProxyExtension" />
+    </GuidSymbol>
+  
+    <GuidSymbol value="{f2f5d331-aef5-406c-a342-d0540a01b1e9}" name="guidImages4">
       <IDSymbol name="bmpPic1" value="1" />
       <IDSymbol name="bmpPic2" value="2" />
       <IDSymbol name="bmpPicSearch" value="3" />

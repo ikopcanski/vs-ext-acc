@@ -51,7 +51,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Command_AddContractProxyExtension.cs" />
+    <Compile Include="Command_AddProxyExtension.cs" />
     <Compile Include="Command_AddAllContractProxies.cs" />
     <Compile Include="Command_AddProxyAttribute.cs" />
     <Compile Include="Command_AddContractProxy.cs" />

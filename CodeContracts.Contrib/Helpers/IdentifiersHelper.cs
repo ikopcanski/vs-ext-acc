@@ -2,11 +2,11 @@
 {
     internal class IdentifiersHelper
     {
-        private const string CodeContractClassFileSuffix = ".contract";
-        private const string CodeContractClassNameSuffix = "_Contract";
+        public const string CodeContractClassFileSuffix = ".contract";
+        public const string CodeContractClassNameSuffix = "_Contract";
 
-        private const string ContractProxyClassFileSuffix = ".proxy";
-        private const string ContractProxyClassNameSuffix = "_Proxy";
+        public const string ContractProxyClassFileSuffix = ".proxy";
+        public const string ContractProxyClassNameSuffix = "_Proxy";
 
         public const string Namespace_System_Diagnostics_Contracts = "System.Diagnostics.Contracts";
         public const string Namespace_CodeContractsContrib = "CodeContracts.Contrib";

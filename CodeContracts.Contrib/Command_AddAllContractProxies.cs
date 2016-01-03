@@ -1,17 +1,15 @@
 ﻿//------------------------------------------------------------------------------
-// <copyright file="AddContractProxy.cs" company="Kopalite">
+// <copyright file="AddAllContractProxies.cs" company="Company">
 //     Copyright (c) Company.  All rights reserved.
 // </copyright>
 //------------------------------------------------------------------------------
 
 using CodeContracts.Contrib.Helpers;
 using CodeContracts.Contrib.Managers;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.VisualStudio.Shell;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.Design;
-using System.IO;
 using System.Linq;
 
 namespace CodeContracts.Contrib
@@ -19,11 +17,11 @@ namespace CodeContracts.Contrib
     /// <summary>
     /// Command handler
     /// </summary>
-    internal sealed class AddContractProxy
+    internal sealed class AddAllContractProxies
     {
         #region [ Props, ctor and init ]
 
-        public static readonly Guid CommandSet = new Guid("19db6c4c-af0a-46b8-80ff-02a586ed1574");
+        public static readonly Guid CommandSet = new Guid("5278d6da-9d41-4281-9f70-aa8bcac9960c");
 
         public const int CommandId = 256;
 
@@ -37,7 +35,7 @@ namespace CodeContracts.Contrib
             }
         }
 
-        public static AddContractProxy Instance
+        public static AddAllContractProxies Instance
         {
             get;
             private set;
@@ -45,10 +43,10 @@ namespace CodeContracts.Contrib
 
         public static void Initialize(Package package)
         {
-            Instance = new AddContractProxy(package);
+            Instance = new AddAllContractProxies(package);
         }
 
-        private AddContractProxy(Package package)
+        private AddAllContractProxies(Package package)
         {
             if (package == null)
             {
@@ -73,41 +71,38 @@ namespace CodeContracts.Contrib
         /// </summary>
         /// <param name="sender">Event sender.</param>
         /// <param name="e">Event args.</param>
-        private void MenuItemCallback(object sender, EventArgs e)
+        private async void MenuItemCallback(object sender, EventArgs e)
         {
 
             var myCommand = sender as OleMenuCommand;
             if (myCommand != null)
             {
-                myCommand.Text = "Add Contract Proxy";
+                myCommand.Text = "Create All Contract Proxies";
             }
 
-            GenerateContractProxyClassFile();
+            await GenerateAllContractProxiesAsync();
         }
 
         #endregion
 
-        private void GenerateContractProxyClassFile()
+        private async System.Threading.Tasks.Task GenerateAllContractProxiesAsync()
         {
             try
             {
-                var items = VSModelHelper.GetSelectedItems(ServiceProvider);
-
-                if (items.Count() != 1)
-                {
-                    VSModelHelper.ShowMessage(ServiceProvider, "Command Error", "Please select single file containing generated code contract class (result of 'Create Code Contract' command).");
-                    return;
-                }
+                var items = VSModelHelper.GetAllCodeContracts(ServiceProvider);
 
                 //Creates proxy class for code contract class and saves it to the file. Transforms Contract.* directives in to if-then-throw statements.
 
-                var item = items.First();
                 var proxyCreator = new ContractProxyCreator();
-                proxyCreator.CreateContractProxy(ServiceProvider, item);
+                
+                foreach (var item in items)
+                {
+                    await proxyCreator.CreateContractProxyAsync(ServiceProvider, item);
+                }
             }
             catch (Exception ex)
             {
-                var message = string.Format("Exception occured while generating contract proxy class:\r\n{0}", ex.Message);
+                var message = string.Format("Exception occured while generating all contract proxies for current solution: {0}", ex.Message);
                 VSModelHelper.ShowMessage(ServiceProvider, "Command Error", message);
             }
         }

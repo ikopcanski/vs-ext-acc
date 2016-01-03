@@ -51,6 +51,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Command_AddAllContractProxies.cs" />
     <Compile Include="Command_AddProxyAttribute.cs" />
     <Compile Include="Command_AddContractProxy.cs" />
     <Compile Include="Command_AddCodeContract.cs" />
@@ -59,7 +60,7 @@
     <Compile Include="Rewriters\ContractExpressionTransformer.cs" />
     <Compile Include="Helpers\Extensions.cs" />
     <Compile Include="Helpers\IdentifiersHelper.cs" />
-    <Compile Include="Helpers\VSModelHelper.cs" />
+    <Compile Include="Managers\VSModelHelper.cs" />
     <Compile Include="Managers\ContractClassToProxyTransformer.cs" />
     <Compile Include="Managers\InterfaceToContractClassAdapter.cs" />
     <Compile Include="Managers\InterfaceToContractClassTransformer.cs" />
@@ -90,6 +91,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
+    <Content Include="Resources\AddAllContractProxies.png" />
     <Content Include="Resources\AddCodeContract.png" />
     <Content Include="Resources\AddContractProxy.png" />
     <Content Include="Resources\AddProxyAttribute.png" />

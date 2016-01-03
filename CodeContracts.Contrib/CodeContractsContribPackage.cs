@@ -70,6 +70,7 @@ namespace CodeContracts.Contrib
             base.Initialize();
             CodeContracts.Contrib.AddContractProxy.Initialize(this);
             CodeContracts.Contrib.AddProxyAttribute.Initialize(this);
+            CodeContracts.Contrib.AddAllContractProxies.Initialize(this);
         }
 
         #endregion

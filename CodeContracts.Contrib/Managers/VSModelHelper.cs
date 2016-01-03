@@ -57,11 +57,12 @@ namespace CodeContracts.Contrib.Helpers
             }
         }
 
-        public static IEnumerable<ProjectItem> GetAllCodeContractsInSolution(IServiceProvider provider)
+        public static IEnumerable<ProjectItem> GetAllCodeContracts(IServiceProvider provider)
         {
             var appObject = provider.GetService(typeof(DTE)) as EnvDTE80.DTE2;
             var solutionDirectory = Path.GetDirectoryName(appObject.Solution.FullName);
-            var codeContractFiles = GetFiles(solutionDirectory, "*.contract.cs");
+            var contractFilePattern = string.Format("*{0}.cs", IdentifiersHelper.CodeContractClassFileSuffix);
+            var codeContractFiles = GetFiles(solutionDirectory, contractFilePattern);
             foreach (var codeContractFile in codeContractFiles)
             {
                 yield return appObject.Solution.FindProjectItem(codeContractFile);

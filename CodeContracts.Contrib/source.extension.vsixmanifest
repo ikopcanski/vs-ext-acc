@@ -6,12 +6,12 @@
     <Description xml:space="preserve">Visual Studio extension for validation rules in C# interfaces: generates container for input/output validation code. It's an abstract class hidden under your interface containing Code Contracts code (from Microsoft RiSE project). Removes validation code clutter in the begging or end of methods and properties, for sake of having functional stability and clean code. After installing, you should see new commands in Solution Explorer context menu: like "Add Code Contract" etc. </Description>
     <MoreInfo>https://www.kopalite.com/vs-ext-ccc</MoreInfo>
     <License>License.txt</License>
-    <Tags>Roslyn, Code Contracts</Tags>
+    <Tags>Code Contracts, VS Extensibility</Tags>
   </Metadata>
   <Installation>
-    <InstallationTarget Version="[14.0,15.0)" Id="Microsoft.VisualStudio.Community" />
-    <InstallationTarget Version="[14.0,15.0)" Id="Microsoft.VisualStudio.Pro" />
-    <InstallationTarget Version="[14.0,15.0)" Id="Microsoft.VisualStudio.Enterprise" />
+    <InstallationTarget Version="[12.0,)" Id="Microsoft.VisualStudio.Community" />
+    <InstallationTarget Version="[12.0,)" Id="Microsoft.VisualStudio.Pro" />
+    <InstallationTarget Version="[12.0,)" Id="Microsoft.VisualStudio.Enterprise" />
   </Installation>
   <Dependencies>
     <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.5,)" />
